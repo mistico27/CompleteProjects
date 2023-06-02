@@ -85,6 +85,7 @@
 .searchinput{
     border:none;
     width:90%;
+    background-color: aliceblue;
 
 }
 .searchinput:focus{
@@ -98,4 +99,8 @@
     border-radius: 50%;
     object-fit: cover;
     cursor:pointer;
+}
+
+.autor{
+    font-size: 35%;
 }

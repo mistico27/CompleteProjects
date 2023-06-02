@@ -7,7 +7,7 @@ return(
     <div className="topbarcontainer">
         <div className="topbarLeft">
             <span className="logo">
-                ChristianTeConecta
+                Conecta-2<span className='autor'> autor: Christian Beltran Bedolla</span>
             </span>
         </div>
         <div className="topbarcenter">
@@ -18,7 +18,7 @@ return(
         </div>
         <div className="topbarRight">
             <div className="topbarLinks">
-                <span className="topbarlink">Hompage</span>
+                <span className="topbarlink">HomPage</span>
                 <span className="topbarlink">Timeline</span>
 
             </div>
