@@ -1,35 +1,57 @@
 import React from 'react'
 import './post.css'
 import {MoreVert} from "@mui/icons-material"
-export default function Post(){
+import {Users} from '../../dummyData'
+
+export default function Post({post}){
+    const getName=()=>{
+        for(let i=0; i<Users.length; i++){
+            if(post.userId===Users[i].id){
+                   return Users[i].username; 
+            }
+        }
+    }
+    
+    ///get profilePhoto
+    const getProfilePicture=()=>{
+        for(let i=0; i<Users.length; i++){
+            if(post.userId===Users[i].id){
+                   return Users[i].profilePicture; 
+            }
+        }
+    }
+
 return(
         <div className='post'>
            <div className="postWrapper">
             <div className="postTop">
                 <div className="postTopLeft">
-                    <img className='postProfileImage' src="/assets/arely-reyes.jpg" alt="" />
-                    <span className='postUserName'>Arely Reyes</span>
-                    <span className='postDate'>5 min ago</span>
+                    <img className='postProfileImage' src={getProfilePicture()} alt="" />
+                    <span className='postUserName'>
+                    {getName()}
+                    </span>
+                    <span className='postDate'>{post.date}</span>
                 </div>
                 <div className="postTopRight">
                     <MoreVert/>
                 </div>
             </div>
             <div className="postCenter">
-                <span className="postText">Hey its my first post</span>
-                <img className='postImg' src="/assets/paisajes/japon.png" alt="" />
+                <span className="postText">{post?.desc}</span>
+                <img className='postImg' src={post.photo} alt="" />
             </div>
             <div className="postBottom">
                 <div className="postBottomLeft">
                     <img className='likeIcon' src="/assets/emoticons/like.png" alt="" />
                     <img className='likeIcon' src="/assets/emoticons/megusta.png" alt="" />
-                    <span className="postLikeCounter">32 people like it </span>
+                    <span className="postLikeCounter">{post.like} </span>
                 </div>
                 <div className="postBottomRight"></div>
-                <span className="postCommentText">9 comments</span>
+                <span className="postCommentText">{post.comment} comments</span>
             </div>
            </div>
         </div>
     );
 
+    
 }
