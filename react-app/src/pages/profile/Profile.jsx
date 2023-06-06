@@ -13,13 +13,23 @@ export default function Profile(){
         <Sidebar/>
         <div className="profileRight">
             <div className="profileRight">
-                <div className="profileRightTop"></div>
-                <div className="profileRightBottom"></div>
+                <div className="profileRightTop">
+                    <div className="profileCover">
+                    <img className='profileCoverImg' src="/assets/paisajes/japon.png" alt="" />
+                    <img className='profileUserImg' src="/assets/5.2 Isabel Cortes.jpg" alt="" />
+                </div>
+                <div className='profileInfo'>
+                    <h4 className='profileInfoName'>Isabel Cortes</h4>
+                    <span className='profileInfoDesc'>Hello my friends...</span>
+                </div>
+                </div>
+                <div className="profileRightBottom">
                 <Feed/>
-        <RightBar/> 
+                <RightBar profile/> 
+                </div>  
         </div>
         </div>
-        </div> 
+        </div>
     </>
     )
 }
