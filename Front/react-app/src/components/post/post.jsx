@@ -5,17 +5,18 @@ import axios from 'axios'
 import {format} from 'timeago.js'
 
 export default function Post({post}){
-    const [like,setLike]=useState(post.like.length);
+    let allLikes = Object.values(post);
+    const [like,setLike]=useState(allLikes[3].length);
     const [isLiked,setIsLiked]=useState(false);
-    const [user,setUser]=useState({});
+    const [user,setUser]=useState([]);
 
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     
     useEffect(() => {
         const fetchUser = async()=>{
             const res= await axios.get(`user/${post.userId}`)
+
             setUser(res.data)
-           
         }   
         fetchUser();    
     },[post.userId]);
