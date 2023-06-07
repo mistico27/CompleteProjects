@@ -13,36 +13,25 @@ export default function Post({post}){
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     
     useEffect(() => {
+        if(post.userId !=="" || post.userId !== "0"){
         const fetchUser = async()=>{
             const res= await axios.get(`user/${post.userId}`)
-
             setUser(res.data)
-        }   
+        }  
         fetchUser();    
+
+    } else{
+        return;
+    }
+
     },[post.userId]);
     
 
     const likeHandler =()=>{
         setLike(isLiked ? like-1:like+1)
         setIsLiked(!isLiked)
-    }
-    /*
-    const getName=()=>{
-        for(let i=0; i<Users.length; i++){
-            if(post.userId===Users[i].id){
-                   return Users[i].username; 
-            }
-        }
-    }
-    ///get profilePhoto
-    const getProfilePicture=()=>{
-        for(let i=0; i<Users.length; i++){
-            if(post.userId===Users[i].id){
-                   return Users[i].profilePicture; 
-            }
-        }
-    }
-*/
+    };
+    
 return(
         <div className='post'>
            <div className="postWrapper">
