@@ -1,14 +1,16 @@
 import React from 'react'
 import "./topbar.css"
 import {Search,Person3,Chat,Notifications} from "@mui/icons-material"
-
+import {Link} from "react-router-dom"
 export default function Topbar(){
 return(
     <div className="topbarcontainer">
         <div className="topbarLeft">
+            <Link to="/" style={{textDecoration:"none"}}>
             <span className="logo">
                 Conecta-2<span className='autor'> autor: Christian Beltran Bedolla</span>
             </span>
+            </Link>
         </div>
         <div className="topbarcenter">
             <div className='searchbar'>
