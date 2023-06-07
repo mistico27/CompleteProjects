@@ -5,7 +5,7 @@ import axios from 'axios'
 import {format} from 'timeago.js'
 
 export default function Post({post}){
-    const [like, setLike] = useState(post.likes.length);
+    const [like,setLike]=useState(post.like.length);
     const [isLiked,setIsLiked]=useState(false);
     const [user,setUser]=useState({});
 
@@ -51,7 +51,7 @@ return(
                     <span className='postUserName'>
                     {user.username}
                     </span>
-                    <span className='postDate'>fecha</span>
+                    <span className='postDate'>{format(post.createdAt)}</span>
                 </div>
                 <div className="postTopRight">
                     <MoreVert/>
