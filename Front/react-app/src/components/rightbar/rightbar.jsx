@@ -4,6 +4,7 @@ import {Users} from '../../dummyData'
 import Online from '../online/online'
 
 export default function Rightbar({profile}){
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
     const HomeRightbar =()=>{
         return(
@@ -56,25 +57,22 @@ export default function Rightbar({profile}){
                 <h4 className='rightbarTitle'>User Friends</h4>
                 <div className="rightbarFollowings">
                         <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src="/assets/bb.jpg" alt="" />
+                            <img className='rightbarFollowingImg' src={`${PF}bb.jpg`} alt="" />
                             <span className="rightbarFollowingName">Bruni Sagnite</span>
                         </div>
                         <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src="/assets/bruni.jpg" alt="" />
+                            <img className='rightbarFollowingImg' src={`${PF}bruni.jpg`} alt="" />
                             <span className="rightbarFollowingName">Bruni Sagnite</span>
                         </div>
                         <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src="/assets/caro.jpg" alt="" />
+                            <img className='rightbarFollowingImg' src={`${PF}caro.jpg`}alt="" />
                             <span className="rightbarFollowingName">Bruni Sagnite</span>
                         </div>
                         <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src="/assets/cherry.jpg" alt="" />
+                            <img className='rightbarFollowingImg' src={`${PF}cherry.jpg`} alt="" />
                             <span className="rightbarFollowingName">Bruni Sagnite</span>
                         </div>
-                        <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src="/assets/cherry.jpg" alt="" />
-                            <span className="rightbarFollowingName">Bruni Sagnite</span>
-                        </div>
+                        
                 </div>
             </>
         )

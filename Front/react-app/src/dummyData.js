@@ -1,47 +1,47 @@
 export const Users = [
     {
       id:1,
-      profilePicture: "assets/5.2 Isabel Cortes.jpg",
+      profilePicture: "5.2 Isabel Cortes.jpg",
       username: "Safak Kocaoglu",
     },
     {
       id:2,
-      profilePicture: "assets/aly.jpg",
+      profilePicture: "aly.jpg",
       username: "Janell Shrum",
     },
     {
       id:3,
-      profilePicture: "assets/alyII.jpg",
+      profilePicture: "alyII.jpg",
       username: "Alex Durden",
     },
     {
       id:4,
-      profilePicture: "assets/arely-reyes.jpg",
+      profilePicture: "arely-reyes.jpg",
       username: "Dora Hawks",
     },
     {
       id:5,
-      profilePicture: "assets/bb.jpg",
+      profilePicture: "bb.jpg",
       username: "Thomas Holden",
     },
     {
       id:6,
-      profilePicture: "assets/caro.jpg",
+      profilePicture: "caro.jpg",
       username: "Shirley Beauchamp",
     },
     {
       id:7,
-      profilePicture: "assets/IMG_20230315_193516.jpg",
+      profilePicture: "IMG_20230315_193516.jpg",
       username: "Travis Bennett",
     },
     {
       id:8,
-      profilePicture: "assets/cherry.jpg",
+      profilePicture: "cherry.jpg",
       username: "Kristen Thomas",
     },
     {
       id:9,
-      profilePicture: "assets/bruni.jpg",
+      profilePicture: "bruni.jpg",
       username: "Gary Duty",
     },
     
@@ -51,7 +51,7 @@ export const Users = [
     {
       id: 1,
       desc: "Love For All, Hatred For None.",
-      photo: "assets/paisajes/japon.png",
+      photo: "paisajes/japon.png",
       date: "5 mins ago",
       userId: 1,
       like: 32,
@@ -59,7 +59,7 @@ export const Users = [
     },
     {
       id: 2,
-      photo: "assets/paisajes/images2.jpg",
+      photo: "paisajes/images2.jpg",
       date: "15 mins ago",
       userId: 2,
       like: 2,
@@ -68,7 +68,7 @@ export const Users = [
     {
       id: 3,
       desc: "Every moment is a fresh beginning.",
-      photo: "assets/paisajes/images.jpg",
+      photo: "paisajes/images.jpg",
       date: "1 hour ago",
       userId: 3,
       like: 61,
@@ -76,7 +76,7 @@ export const Users = [
     },
     {
       id: 4,
-      photo: "assets/paisajes/download.jpg",
+      photo: "paisajes/download.jpg",
       date: "4 hours ago",
       userId: 4,
       like: 7,
@@ -84,7 +84,7 @@ export const Users = [
     },
     {
       id: 5,
-      photo: "assets/paisajes/japon.png",
+      photo: "paisajes/japon.png",
       date: "5 hours ago",
       userId: 5,
       like: 23,
@@ -92,7 +92,7 @@ export const Users = [
     },
     {
       id: 6,
-      photo: "assets/paisajes/images2.jpg",
+      photo: "paisajes/images2.jpg",
       date: "1 day ago",
       userId: 6,
       like: 44,
@@ -101,7 +101,7 @@ export const Users = [
     {
       id: 7,
       desc: "Never regret anything that made you smile.",
-      photo: "assets/paisajes/images2.jpg",
+      photo: "paisajes/images2.jpg",
       date: "2 days ago",
       userId: 7,
       like: 52,
@@ -109,7 +109,7 @@ export const Users = [
     },
     {
       id: 8,
-      photo: "assets/paisajes/download.jpg",
+      photo: "paisajes/download.jpg",
       date: "3 days ago",
       userId: 8,
       like: 15,
@@ -118,7 +118,7 @@ export const Users = [
     {
       id: 9,
       desc: "Change the world by being yourself.",
-      photo: "assets/paisajes/images.jpg",
+      photo: "paisajes/images.jpg",
       date: "5 days ago",
       userId: 9,
       like: 11,

@@ -7,6 +7,8 @@ import {useState} from 'react'
 export default function Post({post}){
     const [like,setLike]=useState(post.like);
     const [isLiked,setIsLiked]=useState(false);
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
 
     const likeHandler =()=>{
         setLike(isLiked ? like-1:like+1)
@@ -34,7 +36,7 @@ return(
            <div className="postWrapper">
             <div className="postTop">
                 <div className="postTopLeft">
-                    <img className='postProfileImage' src={getProfilePicture()} alt="" />
+                    <img className='postProfileImage' src={PF+getProfilePicture()} alt="" />
                     <span className='postUserName'>
                     {getName()}
                     </span>
@@ -46,7 +48,7 @@ return(
             </div>
             <div className="postCenter">
                 <span className="postText">{post?.desc}</span>
-                <img className='postImg' src={post.photo} alt="" />
+                <img className='postImg' src={PF+post.photo} alt="" />
             </div>
             <div className="postBottom">
                 <div className="postBottomLeft">
