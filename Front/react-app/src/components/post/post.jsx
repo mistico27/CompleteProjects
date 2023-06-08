@@ -13,11 +13,13 @@ export default function Post({post}){
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     
     useEffect(() => {
-        if(post.userId !=="" || post.userId !== "0"){
+        
+            console.log("aqui andamos con mi postID"+post.userId)
         const fetchUser = async()=>{
             const res= await axios.get(`user/${post.userId}`)
             setUser(res.data)
         }  
+        if(post.userId !=="" || post.userId !== "0" || !post.userId){
         fetchUser();    
 
     } else{
