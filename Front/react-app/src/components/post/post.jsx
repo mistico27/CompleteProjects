@@ -3,6 +3,7 @@ import './post.css'
 import {MoreVert} from "@mui/icons-material"
 import axios from 'axios'
 import {format} from 'timeago.js'
+import{Link} from "react-router-dom"
 
 export default function Post({post}){
     let allLikes = Object.values(post);
@@ -13,10 +14,8 @@ export default function Post({post}){
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     
     useEffect(() => {
-        
-            console.log("aqui andamos con mi postID"+post.userId)
-        const fetchUser = async()=>{
-            const res= await axios.get(`user/${post.userId}`)
+            const fetchUser = async()=>{
+            const res= await axios.get(`user/?userId=${post.userId}`)
             setUser(res.data)
         }  
         if(post.userId !=="" || post.userId !== "0" || !post.userId){
@@ -39,7 +38,10 @@ return(
            <div className="postWrapper">
             <div className="postTop">
                 <div className="postTopLeft">
+                    <Link to={`profile/${user.username}`}>
                     <img className='postProfileImage' src={user.profilePicture ||PF+"IMG_20230315_193516.jpg" } alt="" />
+                    </Link>
+                    
                     <span className='postUserName'>
                     {user.username}
                     </span>
