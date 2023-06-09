@@ -14,7 +14,7 @@ export default function Profile(){
     const username = useParams().username;
     useEffect(() => {
         const fetchUser = async()=>{
-        const res = await axios.get(`/users?username=${username}`);
+        const res = await axios.get(`http://localhost:8800/api/user?username=${username}`);
         setUser(res.data)
     }  
     fetchUser();    
@@ -29,9 +29,9 @@ export default function Profile(){
         <div className="profileRight">
             <div className="profileRight">
                 <div className="profileRightTop">
-                    <div className="profileCover">
-                    <img className='profileCoverImg' src={`${PF}5.2 Isabel Cortes.jpg`} alt="" />
-                    <img className='profileUserImg' src={`${PF}5.2 Isabel Cortes.jpg`} alt="" />
+                    <div className="profileCover"> 
+                    <img className='profileCoverImg' src={`${PF}/paisajes/download.jpg`} alt="" />
+                    <img className='profileUserImg' src={`${PF}cherry.jpg`} alt="" />
                 </div>
                 <div className='profileInfo'>
                     <h4 className='profileInfoName'>{user.username}</h4>
@@ -39,7 +39,7 @@ export default function Profile(){
                 </div>
                 </div>
                 <div className="profileRightBottom">
-                <Feed username="Marcos"/>
+                <Feed userId={user._id} username="Marcos"/>
                 <RightBar user/> 
                 </div>  
         </div>

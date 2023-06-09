@@ -90,6 +90,7 @@ router.get("/timeline/:userId", async (req, res) => {
 });
 
 router.get("/profile/:username", async (req, res) => {
+  console.log("entra")
   try {
     const user = await User.findOne({ username: req.params.username });
     const posts = await Post.find({ userId: user._id });

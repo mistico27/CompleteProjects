@@ -1,6 +1,7 @@
 const express = require("express");
 const router = require("express").Router();
 const app = express();
+const cors = require("cors")
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
@@ -27,7 +28,7 @@ mongoose.connect(url,{
    });
 }
 */
-
+app.use(cors())
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
