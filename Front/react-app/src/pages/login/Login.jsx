@@ -1,6 +1,20 @@
-import React from 'react'
+import {React,useContext,useRef} from 'react'
 import './login.css'
+import { loginCall } from '../../apiCalls';
+import { AuthContext } from '../../context/AuthContext';
+import RotateRightRoundedIcon from '@mui/icons-material/RotateRightRounded';
+
 export default function Login(){
+    const email= useRef();
+    const password = useRef();
+    const {user,isFetching,error,dispatch}=useContext(AuthContext)
+
+    const handleClick=(e)=>{
+        e.preventDefault();
+        loginCall({email:email.current.value,password:password.current.value},dispatch)
+    }
+    console.log(user);
+
     return(
         <div className='login'>
             <div className="loginWrapper">
@@ -13,13 +27,14 @@ export default function Login(){
                     </span>
                 </div>
                 <div className="loginRight">
-                    <div className="loginBox">
-                        <input placeholder='Email' type="Email" className="loginInput" />
-                        <input placeholder='Password' type="Password" className="loginInput" />
-                        <button className='loginButton'>Log In</button>
+                    <form className="loginBox" onSubmit={handleClick}>
+                        <input placeholder='Email' type="Email" required className="loginInput"  ref={email}/>
+                        <input placeholder='Password' required minLength={"8"} type="Password"
+                         className="loginInput" ref={password} />
+                        <button className='loginButton' type="submit" disabled={isFetching}>{isFetching ? <RotateRightRoundedIcon color="white"/> :"Log In"}</button>
                         <span className='loginForgot'>forgot Password??</span>
                         <button className="loginRegisterButton">Create a New Account</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

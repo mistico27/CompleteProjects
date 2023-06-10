@@ -30,8 +30,8 @@ export default function Profile(){
             <div className="profileRight">
                 <div className="profileRightTop">
                     <div className="profileCover"> 
-                    <img className='profileCoverImg' src={`${PF}/paisajes/download.jpg`} alt="" />
-                    <img className='profileUserImg' src={`${PF}cherry.jpg`} alt="" />
+                    <img className='profileCoverImg' src={user.profilePicture} alt="" />
+                    <img className='profileUserImg' src={user.coverPicture} alt="" />
                 </div>
                 <div className='profileInfo'>
                     <h4 className='profileInfoName'>{user.username}</h4>
@@ -39,8 +39,8 @@ export default function Profile(){
                 </div>
                 </div>
                 <div className="profileRightBottom">
-                <Feed userId={user._id} username="Marcos"/>
-                <RightBar user/> 
+                <Feed userId={user._id} username={username}/>
+                <RightBar user={user}/> 
                 </div>  
         </div>
         </div>
