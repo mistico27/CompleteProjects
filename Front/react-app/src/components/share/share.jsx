@@ -19,7 +19,7 @@ const submitHandler = async(e)=>{
     const newpost ={
         userId: user._id,
         desc:desc.current.value
-    }
+    };
 
     if(file){
         const data = new FormData();
@@ -28,11 +28,12 @@ const submitHandler = async(e)=>{
         data.append("name",fileName);
         newpost.img = fileName;
         try{
-            await axios.post("/upload",data);
+            await axios.post("http://localhost:8800/api/upload",data);
         }catch(e){
              console.log(e);   
         }
     }
+    
     try{
         axios.post("/posts",newpost)
         window.location.reload();
@@ -40,7 +41,6 @@ const submitHandler = async(e)=>{
         console.log(e);
     }
 }
-
 return(
         <div className='share'>
             <div className="shareWrapper">

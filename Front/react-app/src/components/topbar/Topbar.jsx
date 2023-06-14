@@ -7,7 +7,6 @@ import {AuthContext} from "../../context/AuthContext"
 export default function Topbar(){
 
     const {user}= useContext(AuthContext);
-    console.log(user);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
 return(

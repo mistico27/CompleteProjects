@@ -25,7 +25,7 @@ export default function Register(){
             try{
 
                 await axios.post("/auth/register",user);
-                navigate('/login');
+                window.location.replace('login.html');
             }catch(e){
                 console.log(e);
             }

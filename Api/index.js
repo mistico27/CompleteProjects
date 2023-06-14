@@ -33,7 +33,6 @@ mongoose.connect(url,{
 */
 app.use("/images",express.static(path.join(__dirname,"public/images")));
 
-
 app.use(cors())
 app.use(express.json());
 app.use(helmet());
@@ -45,6 +44,7 @@ const storage = multer.diskStorage({
     },
     filename:(req,file,cb)=>{
         cb(null,file.originalname);
+       // req.body.name
     },
 });
 

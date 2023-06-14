@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import  './rightbar.css'
 import {Users} from '../../dummyData'
 import Online from '../online/online'
+import axios from 'axios'
 
 export default function Rightbar({user}){
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [friends,setFriends] =useState([]);
+    
+    useEffect(()=>{
+        const getFriends = async()=>{
+            try{
+                const friendList = await axios.get("http://localhost:8800/api/user/friends/"+user._id);
+                console.log(friendList.data);
+                setFriends(friendList.data);
+            }catch(e){
+                console.log(e);
+            }
+        };
+        getFriends();
+    },[user])
+
 
     const HomeRightbar =()=>{
         return(
@@ -57,22 +73,12 @@ export default function Rightbar({user}){
                 </div>
                 <h4 className='rightbarTitle'>User Friends</h4>
                 <div className="rightbarFollowings">
-                        <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src={`${PF}bb.jpg`} alt="" />
-                            <span className="rightbarFollowingName">Bruni Sagnite</span>
-                        </div>
-                        <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src={`${PF}bruni.jpg`} alt="" />
-                            <span className="rightbarFollowingName">Bruni Sagnite</span>
-                        </div>
-                        <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src={`${PF}caro.jpg`}alt="" />
-                            <span className="rightbarFollowingName">Bruni Sagnite</span>
-                        </div>
-                        <div className="rightbarFollowing">
-                            <img className='rightbarFollowingImg' src={`${PF}cherry.jpg`} alt="" />
-                            <span className="rightbarFollowingName">Bruni Sagnite</span>
-                        </div>
+                    {friends.map(friend=>{
+                            <div className="rightbarFollowing">
+                            <img className='rightbarFollowingImg' src={friend.profilePicture ? PF+friend.profilePicture:PF+"caro.jpg"} alt="" />
+                            <span className="rightbarFollowingName">{friend.username}</span>
+                        </div> 
+                    })}
                         
                 </div>
             </>
