@@ -47,9 +47,8 @@ return(
             <Link to={`/profile/${user.username}`}>
             <img
             src={
-              user.profilePicture
-                ? PF + user.profilePicture
-                : PF + "caro.jpg"
+              
+                 PF + "caro.jpg"
             }
             alt=""
             className="topbarImg"

@@ -74,7 +74,8 @@ export default function Rightbar({user}){
                 <h4 className='rightbarTitle'>User Friends</h4>
                 <div className="rightbarFollowings">
                     {friends.map(friend=>{
-                            <div className="rightbarFollowing">
+                        console.log("ïmage", PF+friend.profilePicture)
+                            return <div className="rightbarFollowing">
                             <img className='rightbarFollowingImg' src={friend.profilePicture ? PF+friend.profilePicture:PF+"caro.jpg"} alt="" />
                             <span className="rightbarFollowingName">{friend.username}</span>
                         </div> 
@@ -84,6 +85,7 @@ export default function Rightbar({user}){
             </>
         )
     }
+   
 return(
         <div className='rightbar'>
             <div className="rightbarWrapper">
