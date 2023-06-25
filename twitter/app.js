@@ -4,6 +4,8 @@ const app= express();
 const port = 3320;
 const path=require('path');
 const bodyParser =require('body-parser');
+const mongoose = require("./database");
+const sesion = require('express-session');
 
 
 const server = app.listen(port,()=>{
@@ -17,6 +19,11 @@ app.set("views","views");
 ///use public folder in all the paths i use
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,"public")));
+app.use(sesion({
+    secret:"chipotle chips",
+    resave:true,
+    saveUninitialized:false
+}))
 
 //routes
 const loginroute =require('./routes/loginRoutes');
@@ -29,7 +36,8 @@ app.use("/register",registeroute);
 app.get("/",middleware.requireLogin,(req,res,next)=>{
     try{
         let payload = {
-            pageTitle:"Home"
+            pageTitle:"Home",
+            userLoggedIn:req.session.user
         }
         res.status(200).render("home",payload);
     }catch(e){
