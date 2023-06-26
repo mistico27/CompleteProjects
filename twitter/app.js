@@ -28,9 +28,11 @@ app.use(sesion({
 //routes
 const loginroute =require('./routes/loginRoutes');
 const registeroute =require('./routes/registerRoutes');
+const logoutroute =require('./routes/logoutRoutes');
 
 app.use("/login",loginroute);
 app.use("/register",registeroute);
+app.use("/logout",logoutroute);
 
 
 app.get("/",middleware.requireLogin,(req,res,next)=>{
