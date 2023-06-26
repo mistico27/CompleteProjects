@@ -29,10 +29,14 @@ app.use(sesion({
 const loginroute =require('./routes/loginRoutes');
 const registeroute =require('./routes/registerRoutes');
 const logoutroute =require('./routes/logoutRoutes');
+///api routes
+const postApiroute =require('./routes/api/posts');
+
 
 app.use("/login",loginroute);
 app.use("/register",registeroute);
 app.use("/logout",logoutroute);
+app.use("/api/posts",postApiroute);
 
 
 app.get("/",middleware.requireLogin,(req,res,next)=>{

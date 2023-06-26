@@ -8,6 +8,7 @@ h1{
     font-size: 21px;
     font-weight: 750;
     margin:0;
+    color: rgba(237, 39, 75, 0.714);
 }
 
 a{
@@ -44,7 +45,7 @@ nav a{
 }
 
 .mainSectionContainer{
-    background-color: rgba(237, 39, 75, 0.714);
+    background-color:  aliceblue;
     padding:0;
     border-left:2px solid rgb(60, 26, 26);
     border-right:2px solid rgb(60, 26, 26);
@@ -67,3 +68,49 @@ nav a{
 
 }
 
+.postFormContainer{
+    display:flex;
+    padding:var(--spacing);
+    border-bottom: 10px solid rgb(230,236,240);
+    flex-shrink: 0;
+
+}
+
+.userImageContainer{
+    width:50px;
+    height:50px;
+}
+
+.userImageContainer img{
+    width:85%;
+    border-radius: 50%;
+    background-color: aliceblue;    
+}
+
+.textareaContainer{
+    flex:1;
+    padding-left: var(--spacing);
+    background-color: aliceblue;   
+
+}
+
+
+.textareaContainer textarea{
+    width:100%;
+    border: none;
+    resize: none;
+    font-size: 19px;
+    background-color: aliceblue;
+}
+#submitPostButton{
+    background-color: rgba(237, 39, 75, 0.714);;
+    color:aliceblue;
+    border:none;
+    border-radius: 40px;
+    padding:7px 15px;
+
+}
+
+#submitPostButton:disabled{
+    background-color: rgb(229, 163, 163)
+}
