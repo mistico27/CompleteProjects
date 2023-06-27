@@ -31,15 +31,47 @@ $("#submitPostButton").click((e)=>{
 
 })
 
+$(document).on("click",".likeBurn",(e)=>{
+    let button= $(e.target);
+    let postId=getPostIdFromElement(button);
+    if(postId===undefined){
+        return;
+    }
+    $.ajax({
+        url:`/api/posts/${postId}/like`,
+        type:"PUT",
+        success:(postData)=>{
+         button.find("span").text(postData.likes.length || "");
+         if(postData.likes.includes(userLoggedIn._id)){
+              button.addClass("active");  
+         }else{
+            button.removeClass("active");
+         }
+        }
+    })
+})
+
+function getPostIdFromElement(element){
+    let isRoot=element.hasClass("post");
+    let rootElement = isRoot ? element:element.closest(".post");
+    let postId= rootElement.data().id;
+    if(postId===undefined){
+        alert("post Id undefined");
+    }
+    return postId;
+}
+
 
 function createPostHtml(postData){
     let postedBy =postData.postedBy;
+
     let displayName=postedBy.firstName + " " +postedBy.lastName;
     let timeStamp = postData.createdAt;
 
+    let likeButtonActiveClass=postData.likes.includes(userLoggedIn._id)? "active":"";
     
     
-    return `<div class='post'>
+    return `<div class='post' data-id='${postData._id}'>
 
         <div class='mainContentContainer'>
             <div class='userImageContainer'>
@@ -49,23 +81,58 @@ function createPostHtml(postData){
                 <div class='header'>
                     <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
                     <span class='username'>${postedBy.username}</span>
-                    <span class='date'>${timeStamp}</span>
+                    <span class='date'>${get_time_diff(timeStamp)}</span>
                 </div>
                 <div class='postBody'>
                     <span>${postData.content}</span>
                 </div>
                 <div class='postFooter'>
-                    <div class='postButtoncontainer'>
-                        <button>
+                    <div class='postButtoncontainer green'>
+                        <button class='retweet'>
                         <ion-icon name="cloud-done-outline"></ion-icon>
                         </button>
+                    </div>
+                    <div class='postButtoncontainer'>    
                         <button>
-                        <ion-icon name="cloud-upload-outline"></ion-icon>                        </button>
-                        <button>
-                        <ion-icon name="heart-circle-outline"></ion-icon>                        </button>
+                        <ion-icon name="cloud-upload-outline"></ion-icon>  
+                         </button>
+                    </div>
+                    <div class='postButtoncontainer red'>     
+                        <button class='likeBurn ${likeButtonActiveClass}'>
+                        <ion-icon name="heart-circle-outline"></ion-icon>
+                        <span id='posdataII'>${postData.likes.length || ""}</span>
+                        </button>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>`;
+}
+
+function get_time_diff( datetime )
+{
+    var datetime = typeof datetime !== 'undefined' ? datetime : "2014-01-01 01:02:03.123456";
+
+    var datetime = new Date( datetime ).getTime();
+    var now = new Date().getTime();
+
+    if( isNaN(datetime) )
+    {
+        return "";
+    }
+
+  
+
+    if (datetime < now) {
+        var milisec_diff = now - datetime;
+    }else{
+        var milisec_diff = datetime - now;
+    }
+
+    var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
+
+    var date_diff = new Date( milisec_diff );
+
+    return  date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes " + date_diff.getSeconds() + " Seconds";
 }

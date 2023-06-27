@@ -1,18 +1,23 @@
 $(document).ready(()=>{
     
     $.get("/api/posts",(results)=>{
-        outputPost(results,"${.postContainer}")
+        outputPost(results)
     })
 })
 
 
-function outputPost(results,container){
+
+function outputPost(results){
+    
+   
     results.forEach(result => {
-        console.log(result);
+        console.log("result",result);
         let html=createPostHtml(result)
-        $('container').append(html);
+        $(".postContainer").append(html);
+       
     });
     if(results.length==0){
-        $('container').appendChild("<span >no results Founded </span>")
+       newContainer.appendChild("<span >no results Founded </span>")
     }
 }
+

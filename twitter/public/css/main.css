@@ -31,6 +31,10 @@ button{
     color:var(--grayButtonText);
 }
 
+button ion-icon,
+button span{
+    pointer-events: none;
+}
 
 nav{
     background-color: #e3d6d6;
@@ -183,4 +187,8 @@ nav a{
 .postButtoncontainer button:hover{
     background-color: #d4edff;
     border-radius: 50%;
+}
+
+.postButtoncontainer.red button.active{
+    color:rgb(226, 34, 94)
 }

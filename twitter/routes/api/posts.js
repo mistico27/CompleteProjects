@@ -6,13 +6,13 @@ const post =require('../../schemas/PostSchema')
 const user =require('../../schemas/UserSchema')
 
 
-
 app.use(bodyParser.urlencoded({extended:false}));
 
 
 router.get("/",(req,res,next)=>{
     try{
         post.find()
+        .populate("postedBy")
         .then((results)=>{
           res.status(200).send(results)
         })
@@ -51,4 +51,29 @@ router.post("/",async(req,res,next)=>{
     
 })
 
+router.put("/:id/like",async(req,res,next)=>{
+    
+  let postId=req.params.id;
+  let userId=req.session.user._id;
+  ///like or not like it
+  let isLiked =req.session.user.likes && req.session.user.likes.includes(postId);
+
+  let option=isLiked? "$pull":"$addToSet"
+  ///insert User like
+
+  req.session.user= await user.findByIdAndUpdate(userId,{[option]:{likes:postId}},{new:true})
+  .catch(error=>{
+    console.log(error);
+    res.sendStatus(400);
+  })
+  
+  ///insert Post like
+  let newPost= await post.findByIdAndUpdate(postId,{[option]:{likes:userId}},{new:true})
+  .catch(error=>{
+    console.log(error);
+    res.sendStatus(400);
+  })
+
+  res.status(200).send(newPost)
+})
 module.exports =router;
