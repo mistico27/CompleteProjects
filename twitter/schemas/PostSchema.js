@@ -12,7 +12,9 @@ const postSchema = new Schema({
     pinned:{
         type:Boolean
     },
-    likes:[{type:Schema.Types.ObjectId,ref:"user"}]
+    likes:[{type:Schema.Types.ObjectId,ref:"user"}],
+    retweetUsers:[{type:Schema.Types.ObjectId,ref:"user"}],
+    retweetData:{type:Schema.Types.ObjectId,ref:"post"}
 },{ timestamps:true });
 
 

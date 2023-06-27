@@ -51,6 +51,31 @@ $(document).on("click",".likeBurn",(e)=>{
     })
 })
 
+////retweet
+$(document).on("click",".retweet",(e)=>{
+    let button= $(e.target);
+    let postId=getPostIdFromElement(button);
+    if(postId===undefined){
+        return;
+    }
+    $.ajax({
+        url:`/api/posts/${postId}/retweet`,
+        type:"POST",
+        success:(postData)=>{
+         button.find("span").text(postData.retweetUsers.length || "");
+         if(postData.retweetUsers.includes(userLoggedIn._id)){
+              button.addClass("active");  
+         }else{
+            button.removeClass("active");
+         }
+         
+        }
+    })
+})
+
+
+
+
 function getPostIdFromElement(element){
     let isRoot=element.hasClass("post");
     let rootElement = isRoot ? element:element.closest(".post");
@@ -63,38 +88,54 @@ function getPostIdFromElement(element){
 
 
 function createPostHtml(postData){
-    let postedBy =postData.postedBy;
+    if(postData==null){
+        return alert("post object is null");
+    }
+    let isRetweet = postData.retweetData!==undefined;
+    let retweetedBy = !isRetweet?postData.postedBy.username:null;
+    
+    postData =isRetweet?postData.retweetData:postData;
 
-    let displayName=postedBy.firstName + " " +postedBy.lastName;
+
+    let postedBy =postData.postedBy;
+    console.log(postedBy.firstName);
+
+    let displayName=postData.postedBy.firstName + " " +postData.postedBy.lastName;
     let timeStamp = postData.createdAt;
 
     let likeButtonActiveClass=postData.likes.includes(userLoggedIn._id)? "active":"";
-    
+    let retweetButtonActiveClass=postData.retweetUsers.includes(userLoggedIn._id)? "active":"";
+
     
     return `<div class='post' data-id='${postData._id}'>
-
+            <div class='postActionContainer'>
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+                ${retweetedBy}
+                <span>retweeted by <a href='/profile/${retweetedBy}'</a>${retweetedBy}</span>
+            </div>
         <div class='mainContentContainer'>
             <div class='userImageContainer'>
-                <img src='${postedBy.profilePic}'/>
+                <img src='${postData.postedBy.profilePic}'/>
             </div>
             <div class='postContenContainer'>
                 <div class='header'>
-                    <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
-                    <span class='username'>${postedBy.username}</span>
+                    <a href='/profile/${postData.postedBy.username}' class='displayName'>${displayName}</a>
+                    <span class='username'>${postData.postedBy.username}</span>
                     <span class='date'>${get_time_diff(timeStamp)}</span>
                 </div>
                 <div class='postBody'>
                     <span>${postData.content}</span>
                 </div>
                 <div class='postFooter'>
-                    <div class='postButtoncontainer green'>
-                        <button class='retweet'>
+                    <div class='postButtoncontainer'>
+                        <button>
                         <ion-icon name="cloud-done-outline"></ion-icon>
                         </button>
                     </div>
-                    <div class='postButtoncontainer'>    
-                        <button>
+                    <div class='postButtoncontainer green'>    
+                        <button class='retweet ${retweetButtonActiveClass}'>
                         <ion-icon name="cloud-upload-outline"></ion-icon>  
+                        <span id='posdataII'>${postData.retweetUsers.length || ""}</span>
                          </button>
                     </div>
                     <div class='postButtoncontainer red'>     

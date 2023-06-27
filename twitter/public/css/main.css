@@ -192,3 +192,22 @@ nav a{
 .postButtoncontainer.red button.active{
     color:rgb(226, 34, 94)
 }
+
+.postButtoncontainer.red button:hover{
+    background-color:rgba(226, 34, 94,0.1)
+}
+
+.postButtoncontainer.green button.active{
+    color:rgb(23,191,99)
+}
+
+.postButtoncontainer.green button:hover{
+    background-color:rgba(32,191,29,0.1)
+}
+
+.postActionContainer{
+    padding-left: 35px;
+    font-size: 13px;
+    color:#060606;
+    margin-bottom: var(--spacing);
+}
