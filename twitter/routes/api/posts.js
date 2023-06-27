@@ -12,7 +12,14 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 router.get("/",(req,res,next)=>{
     try{
-        res.status(200).render("login");
+        post.find()
+        .then((results)=>{
+          res.status(200).send(results)
+        })
+        .catch(error=>{
+          res.sendStatus(400);
+          res.message(error.message)
+        })
     }catch(e){
         res.status(err.status || 500);
         res.json({
