@@ -5,7 +5,6 @@ const bodyParser =require('body-parser');
 const User =require('../schemas/UserSchema');
 const bcrypt= require('bcrypt');
 
-
 app.set("view engine","pug");
 app.set("views","views")
 
