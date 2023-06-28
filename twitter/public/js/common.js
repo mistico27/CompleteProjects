@@ -52,7 +52,7 @@ $(document).on("click",".likeBurn",(e)=>{
 })
 
 ////retweet
-$(document).on("click",".retweet",(e)=>{
+$(document).on("click",".postmodel",(e)=>{
     let button= $(e.target);
     let postId=getPostIdFromElement(button);
     if(postId===undefined){
@@ -73,8 +73,31 @@ $(document).on("click",".retweet",(e)=>{
     })
 })
 
-
-
+/*$(document).on("click",".postmodel",(e)=>{
+    e.preventDefault();
+let nuevoPost = `<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      ...
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+</div>
+</div>`
+$('#myModalExito').modal('show');
+return nuevoPost;
+})
+*/
 
 function getPostIdFromElement(element){
     let isRoot=element.hasClass("post");
@@ -106,13 +129,12 @@ function createPostHtml(postData){
     let likeButtonActiveClass=postData.likes.includes(userLoggedIn._id)? "active":"";
     let retweetButtonActiveClass=postData.retweetUsers.includes(userLoggedIn._id)? "active":"";
 
+    let a='<ion-icon name="cloud-upload-outline"></ion-icon'
+
     
     return `<div class='post' data-id='${postData._id}'>
             <div class='postActionContainer'>
-            <ion-icon name="cloud-upload-outline"></ion-icon>
-                ${retweetedBy}
-                <span>retweeted by <a href='/profile/${retweetedBy}'</a>${retweetedBy}</span>
-            </div>
+            
         <div class='mainContentContainer'>
             <div class='userImageContainer'>
                 <img src='${postData.postedBy.profilePic}'/>
@@ -128,7 +150,7 @@ function createPostHtml(postData){
                 </div>
                 <div class='postFooter'>
                     <div class='postButtoncontainer'>
-                        <button>
+                        <button data-bs-toggle='modal' data-bs-target="#replyModal">
                         <ion-icon name="cloud-done-outline"></ion-icon>
                         </button>
                     </div>
