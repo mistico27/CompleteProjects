@@ -8,6 +8,7 @@ const mongoose = require("./database");
 const sesion = require('express-session');
 
 
+
 const server = app.listen(port,()=>{
     console.log("Server listening in port " + port);
 })
