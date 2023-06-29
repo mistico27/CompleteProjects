@@ -14,6 +14,18 @@ $("#postTextArea, #replyTextArea").keyup((event)=>{
     
 })
 
+///sending the user to the post page
+$(document).on("click",".post",(e)=>{
+    let element= $(e.target);
+    let postId=getPostIdFromElement(element);
+    if(postId!==undefined && !element.is("button")){
+        window.location.href='/posts/'+postId;
+
+
+    }
+
+})
+
 
 
 ///selector
@@ -35,12 +47,15 @@ $("#submitPostButton,#submirReplyBotton").click((e)=>{
     }
 
     $.post("/api/posts",data,(postData)=>{
-        let html = createPostHtml(postData);
-        $(".postContainer").prepend(html);
-        textBox.val("");
-        button.prop("disabled",true);
+        if(postData.replyTo){
+            location.reload();
+        }else{
+            let html = createPostHtml(postData);
+            $(".postContainer").prepend(html);
+            textBox.val("");
+            button.prop("disabled",true);
+        } 
     })
-
 })
 
 
@@ -128,17 +143,25 @@ function createPostHtml(postData){
     postData =isRetweet?postData.retweetData:postData;
 
 
-    let postedBy =postData.postedBy;
-    console.log(postedBy.firstName);
-
     let displayName=postData.postedBy.firstName + " " +postData.postedBy.lastName;
     let timeStamp = postData.createdAt;
 
     let likeButtonActiveClass=postData.likes.includes(userLoggedIn._id)? "active":"";
     let retweetButtonActiveClass=postData.retweetUsers.includes(userLoggedIn._id)? "active":"";
 
-    let a='<ion-icon name="cloud-upload-outline"></ion-icon'
+    let replyFlag="";
+    if(postData.replyTo){
+        if(!postData.replyTo._id){
+            console.log("Reply is not populated!!");
 
+        }else if(!postData.replyTo.postedBy){
+            console.log("posted by is not populated!!");
+        }
+        let replyToUsername=postData.replyTo.postedBy.username;
+       replyFlag=`<div class='replyFlag'>
+            Replying to <a href=''>@${replyToUsername}</a>
+       </div>`
+    }
     
     return `<div class='post' data-id='${postData._id}'>
             <div class='postActionContainer'>
@@ -153,6 +176,7 @@ function createPostHtml(postData){
                     <span class='username'>${postData.postedBy.username}</span>
                     <span class='date'>${get_time_diff(timeStamp)}</span>
                 </div>
+                ${replyFlag}
                 <div class='postBody'>
                     <span>${postData.content}</span>
                 </div>
@@ -215,7 +239,6 @@ function outputPostII(results){
     }
    
     results.forEach(result => {
-        console.log("result",result);
         let html=createPostHtml(result)
         $("#originFormContainer").append(html);
        

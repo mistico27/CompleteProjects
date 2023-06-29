@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 router.get("/",async(req,res,next)=>{
   let results= await getPosts({});
+  console.log(results);
   res.status(200).send(results);
 })
 
@@ -129,12 +130,13 @@ async function getPosts(filter){
    let results= await post.find(filter)
     .populate("postedBy")
     .populate("retweetData")
+    .populate("replyTo")
     .sort({"createdAt":-1})
     .catch(error=>{
       res.sendStatus(400);
       res.message(error.message)
     })
-    
+    results=user.populate(results,{path:"replyTo.postedBy"});
       return await user.populate(results,{path:"retweetData.postedBy"});  
   
 }

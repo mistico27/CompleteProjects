@@ -223,3 +223,7 @@ nav a{
     padding: 0;
     padding-bottom: var(--spacing);
 }
+
+.replyFlag{
+    margin-bottom: 5px;    
+}
