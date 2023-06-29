@@ -3,8 +3,6 @@ $("#postTextArea, #replyTextArea").keyup((event)=>{
     let value=textBox.val().trim();
     
     let isModel = textBox.parents(".modal").length==1;
-
-
     let submitButton= isModel?$("#submirReplyBotton"):$("#submitPostButton");
 
 
@@ -19,12 +17,23 @@ $("#postTextArea, #replyTextArea").keyup((event)=>{
 
 
 ///selector
-$("#submitPostButton").click((e)=>{
+$("#submitPostButton,#submirReplyBotton").click((e)=>{
     let button= $(e.target);
-    let textBox =$("#postTextArea");
+    let isModel = button.parents(".modal").length==1;
+    let textBox =isModel?$("#replyTextArea"):$("#postTextArea");
     let data={
         content:textBox.val()
     }
+
+    if(isModel){
+        let newId=button.data().id;
+        console.log(newId);
+        if(newId===null){
+               return("button Id is null"); 
+        }
+        data.replyTo=newId;
+    }
+
     $.post("/api/posts",data,(postData)=>{
         let html = createPostHtml(postData);
         $(".postContainer").prepend(html);
@@ -38,12 +47,21 @@ $("#submitPostButton").click((e)=>{
 $("#replyModal").on("show.bs.modal",(e)=>{
     let button= $(e.relatedTarget);
     let postId=getPostIdFromElement(button);
+    $("#submirReplyBotton").data("id",postId);
 
     $.get("/api/posts/"+postId,(results)=>{
-        console.log(results);
+        outputPostII(results);
     })
 
 })
+
+
+$("#replyModal").on("hidden.bs.modal",(e)=>{
+    $("#originFormContainer").html("");
+
+})
+
+
 
 $(document).on("click",".likeBurn",(e)=>{
     let button= $(e.target);
@@ -188,4 +206,21 @@ function get_time_diff( datetime )
     var date_diff = new Date( milisec_diff );
 
     return  date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes " + date_diff.getSeconds() + " Seconds";
+}
+
+
+function outputPostII(results){
+    if(!Array.isArray(results)){
+        results=[results];
+    }
+   
+    results.forEach(result => {
+        console.log("result",result);
+        let html=createPostHtml(result)
+        $("#originFormContainer").append(html);
+       
+    });
+    if(results.length==0){
+        $("#originFormContainer").append("<span >no results Founded </span>")
+    }
 }

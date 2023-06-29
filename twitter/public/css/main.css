@@ -218,3 +218,8 @@ nav a{
     padding-top:var(--spacing);
 
 }
+
+.modal .post{
+    padding: 0;
+    padding-bottom: var(--spacing);
+}

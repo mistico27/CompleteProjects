@@ -11,13 +11,12 @@ function outputPost(results){
     
    
     results.forEach(result => {
-        console.log("result",result);
         let html=createPostHtml(result)
         $(".postContainer").append(html);
        
     });
     if(results.length==0){
-       newContainer.appendChild("<span >no results Founded </span>")
+        $(".postContainer").append("<span >no results Founded </span>")
     }
 }
 

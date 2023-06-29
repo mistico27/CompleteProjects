@@ -12,15 +12,14 @@ mixin createReplyModal(userLoggedIn)
         .modal-dialog.modal-dialog-centered(role='document')
             .modal-content
                 .modal-header
-                    h5#replayModalLabel.modal-title reply
-                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                    span(aria-hidden='true') &times;
+                    h5#replayModalLabel.modal-title Please reply this Ikky
                 .modal-body
+                    #originFormContainer
                     .postFormContainer
                         .userImageContainer 
                             img(src=userLoggedIn.profilePic, alt="Users profile picture")
                         .textareaContainer 
                             textarea#replyTextArea(placeholder="So, what´s up...?")
                 .modal-footer
-                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-                    button#submirReplyBotton.btn.btn-primary(type='button',disabled="true") Reply
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+                    button#submirReplyBotton.btn.btn-danger(type='button',disabled="true") Reply
