@@ -211,3 +211,10 @@ nav a{
     color:#060606;
     margin-bottom: var(--spacing);
 }
+
+.modal .postActionContainer{
+    border:none;
+    padding:0;
+    padding-top:var(--spacing);
+
+}

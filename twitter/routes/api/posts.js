@@ -9,27 +9,21 @@ const user =require('../../schemas/UserSchema')
 app.use(bodyParser.urlencoded({extended:false}));
 
 
-router.get("/",(req,res,next)=>{
-    try{
-        post.find()
-        .populate("postedBy")
-        .populate("retweetData")
-        .then(async(results)=>{
-          results=await user.populate(results,{path:"retweetData.postedBy"});
-          res.status(200).send(results);
-        })
-        .catch(error=>{
-          res.sendStatus(400);
-          res.message(error.message)
-        })
-    }catch(e){
-        res.status(err.status || 500);
-        res.json({
-          success: false,
-          message: e.message
-        })
-    }
+router.get("/",async(req,res,next)=>{
+  let results= await getPosts({});
+  res.status(200).send(results);
 })
+
+///with Id
+router.get("/:id",async (req,res,next)=>{
+  let postdId= req.params.id;
+
+  let results= await getPosts({_id:postdId});
+  results=results[0];
+    res.status(200).send(results);
+})
+
+
 
 
 router.post("/",async(req,res,next)=>{
@@ -123,5 +117,23 @@ router.post("/:id/retweet",async(req,res,next)=>{
 
   res.status(200).send(newpostII)
 })
+
+
+async function getPosts(filter){
+
+   let results= await post.find(filter)
+    .populate("postedBy")
+    .populate("retweetData")
+    .sort({"createdAt":-1})
+    .catch(error=>{
+      res.sendStatus(400);
+      res.message(error.message)
+    })
+    
+      return await user.populate(results,{path:"retweetData.postedBy"});  
+  
+}
+
+
 
 module.exports =router;

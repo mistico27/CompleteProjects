@@ -1,11 +1,12 @@
-$("#postTextArea").keyup((event)=>{
+$("#postTextArea, #replyTextArea").keyup((event)=>{
     let textBox= $(event.target);
     let value=textBox.val().trim();
     
-    let submitButton= $("#submitPostButton");
-    if(submitButton.length==0){
-        
-    }
+    let isModel = textBox.parents(".modal").length==1;
+
+
+    let submitButton= isModel?$("#submirReplyBotton"):$("#submitPostButton");
+
 
     if(!value){
         submitButton.prop("disabled",true);
@@ -14,6 +15,8 @@ $("#postTextArea").keyup((event)=>{
         submitButton.prop("disabled",false);
     
 })
+
+
 
 ///selector
 $("#submitPostButton").click((e)=>{
@@ -27,6 +30,17 @@ $("#submitPostButton").click((e)=>{
         $(".postContainer").prepend(html);
         textBox.val("");
         button.prop("disabled",true);
+    })
+
+})
+
+
+$("#replyModal").on("show.bs.modal",(e)=>{
+    let button= $(e.relatedTarget);
+    let postId=getPostIdFromElement(button);
+
+    $.get("/api/posts/"+postId,(results)=>{
+        console.log(results);
     })
 
 })
@@ -52,7 +66,7 @@ $(document).on("click",".likeBurn",(e)=>{
 })
 
 ////retweet
-$(document).on("click",".postmodel",(e)=>{
+$(document).on("click",".retweet",(e)=>{
     let button= $(e.target);
     let postId=getPostIdFromElement(button);
     if(postId===undefined){
@@ -73,31 +87,7 @@ $(document).on("click",".postmodel",(e)=>{
     })
 })
 
-/*$(document).on("click",".postmodel",(e)=>{
-    e.preventDefault();
-let nuevoPost = `<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      ...
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
-    </div>
-  </div>
-</div>
-</div>`
-$('#myModalExito').modal('show');
-return nuevoPost;
-})
-*/
+
 
 function getPostIdFromElement(element){
     let isRoot=element.hasClass("post");
