@@ -114,7 +114,7 @@ nav a{
     background-color: aliceblue;
 }
 #submitPostButton{
-    background-color: rgba(237, 39, 75, 0.714);;
+    background-color: rgba(237, 39, 75, 0.714);
     color:aliceblue;
     border:none;
     border-radius: 40px;
@@ -247,4 +247,25 @@ nav a{
 .errorMessage{
     padding: var(--spacing);
     
+}
+
+
+.profileHeaderContainer .coverPhotoContainer{
+    height:180px;
+    background-color: rgba(237, 39, 75, 0.714);
+    position:relative;
+
+}
+
+.profileHeaderContainer .userImageContainer{
+    height: 132px;
+    width:132px;
+    margin-left: var(--spacing);
+    width:20%;
+    position:absolute;
+    bottom:-66px;
+}
+
+.profileHeaderContainer .userImageContainer img{
+    border:4px solid azure
 }
