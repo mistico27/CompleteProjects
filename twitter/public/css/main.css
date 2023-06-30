@@ -227,3 +227,24 @@ nav a{
 .replyFlag{
     margin-bottom: 5px;    
 }
+
+.post.largeFont .postBody,
+.post.largeFont .postFooter
+{
+    font-size: 23px;
+
+}
+
+.postContenContainer .header{
+    display:flex;
+}
+
+.postContenContainer .header .date{
+    flex:1;
+}
+
+
+.errorMessage{
+    padding: var(--spacing);
+    
+}

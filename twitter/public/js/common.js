@@ -65,7 +65,7 @@ $("#replyModal").on("show.bs.modal",(e)=>{
     $("#submirReplyBotton").data("id",postId);
 
     $.get("/api/posts/"+postId,(results)=>{
-        outputPostII(results);
+        outputPostII(results.postData);
     })
 
 })
@@ -76,7 +76,23 @@ $("#replyModal").on("hidden.bs.modal",(e)=>{
 
 })
 
+$("#deleteModal").on("show.bs.modal",(e)=>{
+    let button= $(e.relatedTarget);
+    let postId=getPostIdFromElement(button);
+    $("#submiDeleteBotton").data("id",postId);
 
+})
+
+$("#submiDeleteBotton").click((e)=>{
+    let postId= $(e.target).data("id");
+    $.ajax({
+        url:`/api/posts/${postId}`,
+        type:"DELETE",
+        success:(postData)=>{
+         location.reload();
+        }
+    })
+})
 
 $(document).on("click",".likeBurn",(e)=>{
     let button= $(e.target);
@@ -133,7 +149,7 @@ function getPostIdFromElement(element){
 }
 
 
-function createPostHtml(postData){
+function createPostHtml(postData,largeFont=false){
     if(postData==null){
         return alert("post object is null");
     }
@@ -148,9 +164,10 @@ function createPostHtml(postData){
 
     let likeButtonActiveClass=postData.likes.includes(userLoggedIn._id)? "active":"";
     let retweetButtonActiveClass=postData.retweetUsers.includes(userLoggedIn._id)? "active":"";
+    let largeFontClass=largeFont?"largeFont":"";
 
     let replyFlag="";
-    if(postData.replyTo){
+    if(postData.replyTo && postData.replyTo._id){
         if(!postData.replyTo._id){
             console.log("Reply is not populated!!");
 
@@ -163,7 +180,15 @@ function createPostHtml(postData){
        </div>`
     }
     
-    return `<div class='post' data-id='${postData._id}'>
+
+    let button="";
+    if(postData.postedBy._id==userLoggedIn._id){
+        button=`<button data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <ion-icon name="close-outline"></ion-icon> 
+        </button>`
+    }
+
+    return `<div class='post ${largeFontClass}' data-id='${postData._id}'>
             <div class='postActionContainer'>
             
         <div class='mainContentContainer'>
@@ -175,6 +200,7 @@ function createPostHtml(postData){
                     <a href='/profile/${postData.postedBy.username}' class='displayName'>${displayName}</a>
                     <span class='username'>${postData.postedBy.username}</span>
                     <span class='date'>${get_time_diff(timeStamp)}</span>
+                    ${button}
                 </div>
                 ${replyFlag}
                 <div class='postBody'>
@@ -246,4 +272,21 @@ function outputPostII(results){
     if(results.length==0){
         $("#originFormContainer").append("<span >no results Founded </span>")
     }
+}
+
+
+function outputPostIIIWitReplies(results){
+    
+    if(results.replyTo!==undefined && results.replyTo._id!==undefined){
+        let html=createPostHtml(results.replyTo);
+        $(".postContainer").append(html);
+    }
+    let mainpotshtml=createPostHtml(results.postData,true);
+        $(".postContainer").append(mainpotshtml);
+
+        results.replies.forEach(result => {
+            let html=createPostHtml(result)
+            $(".postContainer").append(html); 
+        });
+
 }

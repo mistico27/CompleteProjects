@@ -12,7 +12,7 @@ mixin createReplyModal(userLoggedIn)
         .modal-dialog.modal-dialog-centered(role='document')
             .modal-content
                 .modal-header
-                    h5#replayModalLabel.modal-title Please reply this Ikky
+                    h5#replayModalLabel.modal-title Please reply this IkkI
                 .modal-body
                     #originFormContainer
                     .postFormContainer
@@ -23,3 +23,15 @@ mixin createReplyModal(userLoggedIn)
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
                     button#submirReplyBotton.btn.btn-danger(type='button',disabled="true") Reply
+
+mixin createDeleteModal(userLoggedIn)
+    #deleteModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true')
+        .modal-dialog.modal-dialog-centered(role='document')
+            .modal-content
+                .modal-header
+                    h5#deleteModalLabel.modal-title Delete this IkkI
+                .modal-body
+                    <p>you wanna delete this IkkI??
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+                    button#submiDeleteBotton.btn.btn-danger(type='button') Delete

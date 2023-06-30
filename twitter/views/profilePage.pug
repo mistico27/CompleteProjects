@@ -1,0 +1,14 @@
+extends layouts/main-layout.pug
+
+block content
+    if !profileUser
+        h3.errorMessage User not found
+    else
+        span #{profileUser.firstName}
+        .postContainer
+
+        +createReplyModal(userLoggedIn)
+        +createDeleteModal(userLoggedIn)
+
+block scripts 
+    script(src="/js/profile.js")

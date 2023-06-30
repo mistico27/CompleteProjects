@@ -19,8 +19,21 @@ router.get("/",async(req,res,next)=>{
 router.get("/:id",async (req,res,next)=>{
   let postdId= req.params.id;
 
-  let results= await getPosts({_id:postdId});
-  results=results[0];
+  let postData= await getPosts({_id:postdId});
+  postData=postData[0];
+
+  let results={
+    postData:postData
+  }
+
+  if(postData.replyTo!=undefined){
+    results.replyTo=postData.replyTo
+  }  
+
+  results.replies =await getPosts({
+    replyTo:postdId
+  })
+
     res.status(200).send(results);
 })
 
@@ -141,6 +154,15 @@ async function getPosts(filter){
   
 }
 
+
+router.delete("/:id",(req,res,next)=>{
+    post.findByIdAndDelete(req.params.id)
+    .then(()=>{
+      res.sendStatus(202) 
+      }).catch(e=>{
+        res.sendStatus(e.status); 
+    })
+})
 
 
 module.exports =router;
