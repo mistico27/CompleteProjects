@@ -24,6 +24,10 @@ router.get("/",(req,res,next)=>{
     }
 })
 
+router.get("/:username",async(req,res,next)=>{
+    let payload=await get
+})
+
 
 
 

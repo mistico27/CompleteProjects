@@ -35,3 +35,14 @@ mixin createDeleteModal(userLoggedIn)
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
                     button#submiDeleteBotton.btn.btn-danger(type='button') Delete
+
+
+mixin createFollowButton(user,isFollowing)
+    - text = isFollowing?"Following":"Follow"
+    - buttonClass = isFollowing?"followButtonFollowing":"FollowButton"
+    button(class=buttonClass,data-user=user._id) #{text}
+
+mixin createTab(name,href,isSelected)
+    - className = isSelected ? "tab active" : "tab"
+    a(href=href,class=className)
+        span #{name}

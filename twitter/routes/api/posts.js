@@ -10,7 +10,15 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 
 router.get("/",async(req,res,next)=>{
-  let results= await getPosts({});
+  let searchObj= req.query;
+  if(searchObj.isReply !== undefined){
+      let isReply=searchObj.isReply=="true";
+      searchObj.replyTo={$exists:isReply}
+      delete searchObj.isReply;
+      console.log("this is a searchObj",searchObj);
+  }
+  
+  let results= await getPosts(searchObj);
   console.log(results);
   res.status(200).send(results);
 })
