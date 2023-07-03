@@ -20,13 +20,39 @@ $(document).on("click",".post",(e)=>{
     let postId=getPostIdFromElement(element);
     if(postId!==undefined && !element.is("button")){
         window.location.href='/posts/'+postId;
-
-
     }
-
 })
 
-
+///follow
+$(document).on("click",".followButtonFollowing",(e)=>{
+    
+    let button=$(e.target);
+    let userId=button.data().user;
+    $.ajax({
+        url:`/api/users/${userId}/follow`,
+        type:"PUT",
+        success:(data,status, xhr)=>{
+           if(xhr.status==404){
+               console.log("user not found"); 
+            return;
+           }
+        
+         if(data.following && data.following.includes(userId)){
+              button.addClass("following");  
+              button.text("following")
+         }else{
+            button.removeClass("following");
+            button.text("follow")
+         }
+         
+         let followersLabel=$("#followersValue")
+         if(followersLabel.length != 0){
+            followersLabel.text("hi");
+         }
+        
+        }
+    })
+})
 
 ///selector
 $("#submitPostButton,#submirReplyBotton").click((e)=>{
@@ -39,7 +65,6 @@ $("#submitPostButton,#submirReplyBotton").click((e)=>{
 
     if(isModel){
         let newId=button.data().id;
-        console.log(newId);
         if(newId===null){
                return("button Id is null"); 
         }
@@ -126,6 +151,7 @@ $(document).on("click",".retweet",(e)=>{
         url:`/api/posts/${postId}/retweet`,
         type:"POST",
         success:(postData)=>{
+            console.log(postData.retweetUsers);
          button.find("span").text(postData.retweetUsers.length || "");
          if(postData.retweetUsers.includes(userLoggedIn._id)){
               button.addClass("active");  
@@ -155,17 +181,30 @@ function createPostHtml(postData,largeFont=false){
         return alert("post object is null");
     }
     let isRetweet = postData.retweetData!==undefined;
-    let retweetedBy = !isRetweet?postData.postedBy.username:null;
+    let retweetedBy = isRetweet?postData.postedBy.username:null;
     
     postData =isRetweet?postData.retweetData:postData;
 
+    let postedBy=postData.postedBy;
+    console.log(postedBy._id);
 
-    let displayName=postData.postedBy.firstName + " " +postData.postedBy.lastName;
-    let timeStamp = postData.createdAt;
+    if(postedBy._id===undefined){
+        console.log("ObjectUser not populated");
+    }
+    let displayName=postedBy.firstName + " " +postedBy.lastName;
+    let timeStamp = timeDifference(new Date(), new Date(postData.createdAt));
 
     let likeButtonActiveClass=postData.likes.includes(userLoggedIn._id)? "active":"";
     let retweetButtonActiveClass=postData.retweetUsers.includes(userLoggedIn._id)? "active":"";
     let largeFontClass=largeFont?"largeFont":"";
+
+    let retweetText ='';
+    if(isRetweet){
+        retweetText=`<span>
+        <ion-icon name="cloud-upload-outline"></ion-icon> 
+            get re-ikki by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>
+        </span>`
+    }
 
     let replyFlag="";
     if(postData.replyTo && postData.replyTo._id){
@@ -191,16 +230,17 @@ function createPostHtml(postData,largeFont=false){
 
     return `<div class='post ${largeFontClass}' data-id='${postData._id}'>
             <div class='postActionContainer'>
-            
+                ${retweetText}
+            </div>
         <div class='mainContentContainer'>
             <div class='userImageContainer'>
-                <img src='${postData.postedBy.profilePic}'/>
+                <img src='${postedBy.profilePic}'/>
             </div>
             <div class='postContenContainer'>
                 <div class='header'>
-                    <a href='/profile/${postData.postedBy.username}' class='displayName'>${displayName}</a>
-                    <span class='username'>${postData.postedBy.username}</span>
-                    <span class='date'>${get_time_diff(timeStamp)}</span>
+                    <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
+                    <span class='username'>${postedBy.username}</span>
+                    <span class='date'>${timeStamp}</span>
                     ${button}
                 </div>
                 ${replyFlag}
@@ -232,33 +272,42 @@ function createPostHtml(postData,largeFont=false){
     </div>`;
 }
 
-function get_time_diff( datetime )
-{
-    var datetime = typeof datetime !== 'undefined' ? datetime : "2014-01-01 01:02:03.123456";
+function timeDifference(current, previous) {
 
-    var datetime = new Date( datetime ).getTime();
-    var now = new Date().getTime();
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
 
-    if( isNaN(datetime) )
-    {
-        return "";
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+        if(elapsed/1000 < 30) return "Just now";
+        
+        return Math.round(elapsed/1000) + ' seconds ago';   
     }
 
-  
-
-    if (datetime < now) {
-        var milisec_diff = now - datetime;
-    }else{
-        var milisec_diff = datetime - now;
+    else if (elapsed < msPerHour) {
+         return Math.round(elapsed/msPerMinute) + ' minutes ago';   
     }
 
-    var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
+    else if (elapsed < msPerDay ) {
+         return Math.round(elapsed/msPerHour ) + ' hours ago';   
+    }
 
-    var date_diff = new Date( milisec_diff );
+    else if (elapsed < msPerMonth) {
+        return Math.round(elapsed/msPerDay) + ' days ago';   
+    }
 
-    return  date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes " + date_diff.getSeconds() + " Seconds";
+    else if (elapsed < msPerYear) {
+        return Math.round(elapsed/msPerMonth) + ' months ago';   
+    }
+
+    else {
+        return Math.round(elapsed/msPerYear ) + ' years ago';   
+    }
 }
-
 
 function outputPostII(results){
     if(!Array.isArray(results)){

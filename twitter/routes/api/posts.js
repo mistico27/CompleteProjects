@@ -15,11 +15,9 @@ router.get("/",async(req,res,next)=>{
       let isReply=searchObj.isReply=="true";
       searchObj.replyTo={$exists:isReply}
       delete searchObj.isReply;
-      console.log("this is a searchObj",searchObj);
   }
   
   let results= await getPosts(searchObj);
-  console.log(results);
   res.status(200).send(results);
 })
 
@@ -83,7 +81,6 @@ router.put("/:id/like",async(req,res,next)=>{
 
   let option=isLiked? "$pull":"$addToSet"
   ///insert User like
-
   req.session.user= await user.findByIdAndUpdate(userId,{[option]:{likes:postId}},{new:true})
   .catch(error=>{
     console.log(error);
@@ -110,8 +107,11 @@ router.post("/:id/retweet",async(req,res,next)=>{
   ///try and delete tweet
   let deletedPost= await post.findOneAndDelete({postedBy:userId,retweetData:postId})
   .catch(error=>{
-    console.log(error);
-    res.sendStatus(400);
+    res.status(error.status || 500)
+    res.json({
+      success: false,
+      message: error.message
+    })
   })
 
   let option=deletedPost !=null? "$pull":"$addToSet"
@@ -121,24 +121,33 @@ router.post("/:id/retweet",async(req,res,next)=>{
     repost=await post.create({
       postedBy:userId,retweetData:postId
     }).catch(error=>{
-      console.log(error);
-      res.sendStatus(400);
+      res.status(error.status || 500)
+      res.json({
+        success: false,
+        message: error.message
+      })
     })
   }
 
   ///insert UserLike
   req.session.user= await user.findByIdAndUpdate(userId,{[option]:{retweets:repost._id}},{new:true})
   .catch(error=>{
-    console.log(error);
-    res.sendStatus(400);
+    res.status(error.status || 500)
+    res.json({
+      success: false,
+      message: error.message
+    })
   })
 
 
 
   let newpostII= await post.findByIdAndUpdate(postId,{[option]:{retweetUsers:userId}},{new:true})
   .catch(error=>{
-    console.log(error);
-    res.sendStatus(400);
+    res.status(error.status || 500)
+    res.json({
+      success: false,
+      message: error.message
+    })
   })
   
 

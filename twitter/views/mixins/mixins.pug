@@ -38,8 +38,8 @@ mixin createDeleteModal(userLoggedIn)
 
 
 mixin createFollowButton(user,isFollowing)
-    - text = isFollowing?"Following":"Follow"
-    - buttonClass = isFollowing?"followButtonFollowing":"FollowButton"
+    - text = !isFollowing?"Following":"Follow"
+    - buttonClass = isFollowing?"followButtonFollowing following":"FollowButton"
     button(class=buttonClass,data-user=user._id) #{text}
 
 mixin createTab(name,href,isSelected)

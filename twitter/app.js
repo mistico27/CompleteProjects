@@ -32,19 +32,18 @@ const registeroute =require('./routes/registerRoutes');
 const logoutroute =require('./routes/logoutRoutes');
 const postRoute =require('./routes/postRoutes');
 const profileRoute =require('./routes/profileRoutes');
-
 ///api routes
 const postApiroute =require('./routes/api/posts');
-
+const userApiroute =require('./routes/api/users');
 
 app.use("/login",loginroute);
 app.use("/register",registeroute);
 app.use("/logout",logoutroute);
-app.use("/api/posts",middleware.requireLogin,postApiroute);
+app.use("/posts",middleware.requireLogin,postRoute);
 app.use("/profile",middleware.requireLogin,profileRoute);
 
-app.use("/posts",postRoute);
-
+app.use("/api/posts",postApiroute);
+app.use("/api/users",userApiroute);
 
 app.get("/",middleware.requireLogin,(req,res,next)=>{
     try{

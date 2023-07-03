@@ -6,6 +6,7 @@ block content
     else
         script.
             let profileUserId='!{profileUser._id}'; 
+            let selectedTab='!{selectedTab}'; 
         .profileHeaderContainer 
             .coverPhotoContainer
                 .userImageContainer 
@@ -14,7 +15,11 @@ block content
                 if profileUser._id == userLoggedIn._id
                     a.profileButton(href=`/messages/${profileUser._id}`)
                         ion-icon(name='flame')
-                    +createFollowButton(profileUser,true)  
+                    - let profileUserId = profileUser._id.toString();    
+                    - if (userLoggedIn.following && userLoggedIn.following.includes(profileUserId)) 
+                        +createFollowButton(profileUser,true)  
+                    - else 
+                        +createFollowButton(profileUser,false)
                     br  
                     br 
             .userDetailsContainer    
@@ -26,11 +31,11 @@ block content
                         span.value #{0}
                         span Following
                     a(href=`/profile/${profileUser.username}/followers`)
-                        span.value #{0}
+                        span#followersValue.value #{0}
                         span Follower   
         .tabsContainer 
-            +createTab("Posts", `/profile`,true)
-            +createTab("Replies", `/profile/${profileUser.username}/replies`,true)
+            +createTab("Posts", `/profile/`, selectedTab != "replies")
+            +createTab("Replies", `/profile/${profileUser.username}/replies`, selectedTab == "replies")
         .postContainer
         +createReplyModal(userLoggedIn)
         +createDeleteModal(userLoggedIn)

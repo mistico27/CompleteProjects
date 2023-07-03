@@ -1,12 +1,22 @@
 $(document).ready(()=>{
 
-    loadPost();
+    if(selectedTab==="replies"){
+        loadReplies();
+    }else{
+        loadPost();
+    }
 
 });
 
 
 function loadPost(){
     $.get("/api/posts",{postedBy:profileUserId, isReply:false},(results)=>{
+        outputPost(results)
+    })
+}
+
+function loadReplies(){
+    $.get("/api/posts",{postedBy:profileUserId, isReply:true},(results)=>{
         outputPost(results)
     })
 }
