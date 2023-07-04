@@ -38,6 +38,39 @@ router.put("/:userId/follow",async(req,res,next)=>{
 })
 
 
+router.get("/:userId/following",async(req,res,next)=>{
+  user.findById(req.params.userId)
+  .populate("following")
+  .then(results=>{
+    res.status(200).send(results);
+  })
+  .catch(error=>{
+    res.status(error.status || 500)
+    res.json({
+      success: false,
+      message: error.message
+    })
+  })
+
+});
+
+router.get("/:userId/followers",async(req,res,next)=>{
+  user.findById(req.params.userId)
+  .populate("followers")
+  .then(results=>{
+    res.status(200).send(results);
+  })
+  .catch(error=>{
+    res.status(error.status || 500)
+    res.json({
+      success: false,
+      message: error.message
+    })
+  })
+
+});
+
+
 
 
 module.exports =router;

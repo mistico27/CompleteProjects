@@ -364,6 +364,15 @@ nav a{
     background-color: rgb(229, 163, 163) ;
 }
 
+.userImagecontainer img{
+    width:12%;
+    background-color: aliceblue;   
+    padding-left: var(--spacing);
+    padding-top: var(--spacing);
+    padding-bottom: var(--spacing);
+}
 
 
-
+.userDetailsContainer{
+    padding-left: var(--spacing);   
+}
