@@ -24,34 +24,42 @@ $(document).on("click",".post",(e)=>{
 })
 
 ///follow
-$(document).on("click",".followButtonFollowing",(e)=>{
+$(document).on("click",".followButton",(e)=>{
     
     let button=$(e.target);
     let userId=button.data().user;
+    console.log("userId", userId);
+
     $.ajax({
         url:`/api/users/${userId}/follow`,
         type:"PUT",
         success:(data,status, xhr)=>{
-           if(xhr.status==404){
-               console.log("user not found"); 
-            return;
-           }
-        
-         if(data.following && data.following.includes(userId)){
-              button.addClass("following");  
-              button.text("following")
-         }else{
-            button.removeClass("following");
-            button.text("follow")
-         }
+            if(xhr.status==404){
+                console.log("user not found"); 
+             return;
+            }
          
-         let followersLabel=$("#followersValue")
-         if(followersLabel.length != 0){
-            followersLabel.text("hi");
+            let difference=1;
+          if(data.following && data.following.includes(userId)){
+               button.addClass("following");  
+               button.text("following")
+          }else{
+             button.removeClass("following");
+             button.text("follow");
+             difference=-1;
+          }
+          
+          
+          let followersLabel=$("#followersValue")
+          if(followersLabel.length != 0){
+             let followersText =followersLabel.text();
+             followersText= parseInt(followersText);
+             followersLabel.text(followersText+difference);
+          }
+         
          }
-        
-        }
-    })
+     })
+    
 })
 
 ///selector

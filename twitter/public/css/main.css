@@ -289,13 +289,13 @@ nav a{
     background-color:rgba(237, 39, 75, 0.714);
     color:#060606
 }
-.followButtonFollowing:hover{
+.followButton:hover{
     background-color:rgba(237, 39, 75, 0.714);
     color:#060606
 }
 
 
-.profileButton,.FollowButton,.followButtonFollowing{
+.profileButton,.followButton,.following{
     border:1px solid rgba(237, 39, 75, 0.714);
     color:rgba(237, 39, 75, 0.714);
     font-weight:bold;

@@ -1,0 +1,21 @@
+extends layouts/main-layout.pug
+
+block content
+    if !profileUser
+        h3.errorMessage User not found
+    else
+        script.
+            let profileUserId='!{profileUser._id}'; 
+            let selectedTab='!{selectedTab}'; 
+        
+        .tabsContainer 
+            +createTab("Following", `/profile/${profileUser.username}/following`, selectedTab != "followers")
+            +createTab("Followers", `/profile/${profileUser.username}/followers`, selectedTab == "followers")
+
+        .resultsContainer 
+
+    script(src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js")
+    script(src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js")
+
+block scripts 
+    script(src="/js/followersAndFollowing.js")
