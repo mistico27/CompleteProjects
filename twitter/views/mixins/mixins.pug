@@ -54,7 +54,10 @@ mixin createImageUploading()
                 .modal-header
                     h5#imageUploadModalLabel.modal-title Upload a new profilePicture
                 .modal-body
-                    <p>you wanna delete this IkkI??
+                    input#filePhoto(type="file",name="filePhoto")
+
+                    .imagePreviewContainer 
+                        img#imagePreview
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-bs-dismiss='modal') cancel
                     button#imageUploadBotton.btn.btn-danger(type='button') save        

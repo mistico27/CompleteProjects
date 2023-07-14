@@ -35,12 +35,15 @@ const profileRoute =require('./routes/profileRoutes');
 ///api routes
 const postApiroute =require('./routes/api/posts');
 const userApiroute =require('./routes/api/users');
+const uploadRoute =require('./routes/uploadsRoutes');
 
 app.use("/login",loginroute);
 app.use("/register",registeroute);
 app.use("/logout",logoutroute);
 app.use("/posts",middleware.requireLogin,postRoute);
 app.use("/profile",middleware.requireLogin,profileRoute);
+app.use("/uploads",uploadRoute);
+
 
 app.use("/api/posts",postApiroute);
 app.use("/api/users",userApiroute);

@@ -1,3 +1,7 @@
+///globals
+let cropper;
+
+
 $("#postTextArea, #replyTextArea").keyup((event)=>{
     let textBox= $(event.target);
     let value=textBox.val().trim();
@@ -115,6 +119,51 @@ $("#deleteModal").on("show.bs.modal",(e)=>{
     $("#submiDeleteBotton").data("id",postId);
 
 })
+///load image
+$("#filePhoto").change(function(){
+  //  let input=$(e.target);
+    if(this.files && this.files[0]){
+        let reader=new FileReader();
+        reader.onload=(e)=>{
+            let image= document.getElementById("imagePreview")
+            image.src=e.target.result;
+            if(cropper !== undefined){
+                   cropper.destroy(); 
+            }
+            cropper = new Cropper(image,{
+                aspectRatio:1/1,
+                background:false
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+
+$("#imageUploadBotton").click(()=>{
+    let canvas = cropper.getCroppedCanvas();
+    if(canvas == null){
+        alert("could not upload image, make sure is an image file");
+        return;
+    }
+    
+    canvas.toBlob((blob)=>{
+        let formData= new FormData();
+        formData.append("croppedImage",blob);
+        
+        $.ajax({
+            url:"/api/users/profilePicture",
+            type:"POST",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success: ()=>{
+                location.reload();
+            }
+        })
+    })
+})
+
+
 
 $("#submiDeleteBotton").click((e)=>{
     let postId= $(e.target).data("id");
@@ -190,11 +239,9 @@ function createPostHtml(postData,largeFont=false){
     }
     let isRetweet = postData.retweetData!==undefined;
     let retweetedBy = isRetweet?postData.postedBy.username:null;
-    console.log(postData.postedBy)
     postData =isRetweet?postData.retweetData:postData;
 
     let postedBy=postData.postedBy;
-    console.log("hey soy posted by",postedBy._id);
 
     if(postedBy._id===undefined){
         console.log("ObjectUser not populated");
