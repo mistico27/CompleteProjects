@@ -13,6 +13,9 @@ block content
             .coverPhotoContainer
                 .userImageContainer 
                     img(src=profileUser.profilePic, alt="User profile image")
+                    if profileUser._id==userLoggedIn._id 
+                        button.profilePictureButton(data-bs-toggle="modal", data-bs-target="#imageUploadModal")
+                            ion-icon(name="camera-reverse-outline")
             .profileButtonsContainer        
                 if profileUser._id == userLoggedIn._id
                     a.profileButton(href=`/messages/${profileUser._id}`)
@@ -41,6 +44,7 @@ block content
         .postContainer
         +createReplyModal(userLoggedIn)
         +createDeleteModal(userLoggedIn)
+        +createImageUploading()
         
     script(src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js")
     script(src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js")

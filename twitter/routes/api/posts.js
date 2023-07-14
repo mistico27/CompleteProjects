@@ -182,7 +182,6 @@ async function getPosts(filter){
     })
     results= await user.populate(results,{path:"replyTo.postedBy"});
       return await user.populate(results,{path:"retweetData.postedBy"});  
-  
 }
 
 
