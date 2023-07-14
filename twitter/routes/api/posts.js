@@ -16,6 +16,20 @@ router.get("/",async(req,res,next)=>{
       searchObj.replyTo={$exists:isReply}
       delete searchObj.isReply;
   }
+
+  /*if(searchObj.followingOnly !== undefined){
+    let followingOnly=searchObj.followingOnly=="true";
+    if(followingOnly){
+      let objectIds=req.session.use.following;
+      objectIds.push(req.session.user_id);
+      searchObj.postedBy={$in:objectIds};
+    }
+    
+      delete searchObj.followingOnly;
+
+  }
+      */
+  
   
   let results= await getPosts(searchObj);
   res.status(200).send(results);
@@ -100,7 +114,7 @@ router.put("/:id/like",async(req,res,next)=>{
 
 ///retweet
 router.post("/:id/retweet",async(req,res,next)=>{
-    
+    console.log(req.session);
   let postId=req.params.id;
   let userId=req.session.user._id;
 
@@ -166,7 +180,7 @@ async function getPosts(filter){
       res.sendStatus(400);
       res.message(error.message)
     })
-    results=user.populate(results,{path:"replyTo.postedBy"});
+    results= await user.populate(results,{path:"replyTo.postedBy"});
       return await user.populate(results,{path:"retweetData.postedBy"});  
   
 }

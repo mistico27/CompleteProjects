@@ -190,11 +190,11 @@ function createPostHtml(postData,largeFont=false){
     }
     let isRetweet = postData.retweetData!==undefined;
     let retweetedBy = isRetweet?postData.postedBy.username:null;
-    
+    console.log(postData.postedBy)
     postData =isRetweet?postData.retweetData:postData;
 
     let postedBy=postData.postedBy;
-    console.log(postedBy._id);
+    console.log("hey soy posted by",postedBy._id);
 
     if(postedBy._id===undefined){
         console.log("ObjectUser not populated");

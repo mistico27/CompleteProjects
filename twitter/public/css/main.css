@@ -376,3 +376,19 @@ nav a{
 .userDetailsContainer{
     padding-left: var(--spacing);   
 }
+
+.resultsContainer{
+    display:flex;
+    flex-direction: column;
+}
+
+.resultsContainer .user{
+    padding: var(--spacing);
+    display: flex;
+    border-bottom: 1px solid #d4edff;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+

@@ -36,6 +36,17 @@ function outputPostIV(results){
 
 function createUserHtml(userData,showFollowBotton){ 
     let name=userData.firstName + " " + userData.lastName;
+    let isFollowing= userLoggedIn.following && userLoggedIn.following.includes(userData._id);
+    let text = !isFollowing?"Following":"Follow"
+    let buttonClass = isFollowing?"followButton following":"followButton"
+
+    let followButton="";
+    if(showFollowBotton && userLoggedIn._id != userData._id){
+        followButton=`<div class='followButtonContainer'>
+                    <button class='${buttonClass}' data-user='${userData._id}'>${text}</button>
+                </div>`;
+    }
+
 return `<div class='user'>
 <div class='userImagecontainer'>
         <img src='${userData.profilePic}'>
@@ -46,5 +57,6 @@ return `<div class='user'>
             <span class='username'>${userData.username}</span>    
         </div>
     </div>
+    ${followButton}
 </div>`;
 }
