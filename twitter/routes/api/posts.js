@@ -195,4 +195,23 @@ router.delete("/:id",(req,res,next)=>{
 })
 
 
+router.put("/:id",async(req,res,next)=>{
+
+
+  if(req.body.pinnned !== undefined){
+    await post.updateMany({postedBy:req.session.user}, {pinned:false})
+    .catch(e=>{
+      res.sendStatus(e.status); 
+  })
+  }
+
+  post.findByIdAndUpdate(req.params.id,req.body)
+  .then(()=>{
+    res.sendStatus(204) 
+    }).catch(e=>{
+      res.sendStatus(e.status); 
+  })
+})
+
+
 module.exports =router;

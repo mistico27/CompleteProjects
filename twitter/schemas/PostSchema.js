@@ -15,7 +15,8 @@ const postSchema = new Schema({
     likes:[{type:Schema.Types.ObjectId,ref:"user"}],
     retweetUsers:[{type:Schema.Types.ObjectId,ref:"user"}],
     retweetData:{type:Schema.Types.ObjectId,ref:"post"},
-    replyTo:{type:Schema.Types.ObjectId,ref:"post"}
+    replyTo:{type:Schema.Types.ObjectId,ref:"post"},
+    pinned:Boolean
 },{ timestamps:true });
 
 

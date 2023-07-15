@@ -10,7 +10,15 @@ block content
         - followersCount=profileUser.followers.length;
         - followingCount=profileUser.following.length;
         .profileHeaderContainer 
-            .coverPhotoContainer
+            .coverPhotoSection
+                .coverPhotoContainer
+                    if profileUser.coverPhoto 
+                        img(src=profileUser.coverPhoto,alt="coverPhoto")
+
+                    if profileUser._id==userLoggedIn._id 
+                        button.coverPhotoButton(data-bs-toggle="modal", data-bs-target="#coverPhotoUploadModal")
+                            ion-icon(name="camera-reverse-outline")
+
                 .userImageContainer 
                     img(src=profileUser.profilePic, alt="User profile image")
                     if profileUser._id==userLoggedIn._id 
@@ -41,10 +49,14 @@ block content
         .tabsContainer 
             +createTab("Posts", `/profile/`, selectedTab != "replies")
             +createTab("Replies", `/profile/${profileUser.username}/replies`, selectedTab == "replies")
+        .pinnedPostContainer   
         .postContainer
         +createReplyModal(userLoggedIn)
         +createDeleteModal(userLoggedIn)
         +createImageUploading()
+        +createCoverPhotoUploading()
+        +createPinnedModal()
+        +createUnPinnedModal()
         
     script(src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js")
     script(src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js")

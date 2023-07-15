@@ -10,6 +10,10 @@ $(document).ready(()=>{
 
 
 function loadPost(){
+    $.get("/api/posts",{postedBy:profileUserId, pinned:true},(results)=>{
+        outputPostIX(results)
+    })
+
     $.get("/api/posts",{postedBy:profileUserId, isReply:false},(results)=>{
         outputPost(results)
     })
@@ -33,3 +37,18 @@ function outputPost(results){
         $(".postContainer").append("<span >no results Founded </span>")
     }
 }
+
+function outputPostIX(results){
+    if(results.length===0){
+        $(".pinnedPostContainer").hide();
+        return;
+    }
+   
+    results.forEach(result => {
+        let html=createPostHtml(result)
+        $(".pinnedPostContainer").append(html);
+       
+    });
+    
+}
+

@@ -119,6 +119,62 @@ $("#deleteModal").on("show.bs.modal",(e)=>{
     $("#submiDeleteBotton").data("id",postId);
 
 })
+
+///pin modal
+$("#confirmModal").on("show.bs.modal",(e)=>{
+    let button= $(e.relatedTarget);
+    let postId=getPostIdFromElement(button);
+    $("#confirmPinModalBotton").data("id",postId);
+
+})
+
+///unpin modal
+$("#unpinnedModal").on("show.bs.modal",(e)=>{
+    let button= $(e.relatedTarget);
+    let postId=getPostIdFromElement(button);
+    $("#confirmUnPinModalBotton").data("id",postId);
+
+})
+
+$("#confirmPinModalBotton").click((e)=>{
+    let postId= $(e.target).data("id");
+    $.ajax({
+        url:`/api/posts/${postId}`,
+        type:"PUT",
+        data:{pinned:true},
+        success:(data,status,xhr)=>{
+         
+            if(xhr.status!=204){
+                alert("Could not pin the post")
+                return;
+            }
+         
+            location.reload();
+        }
+    })
+})
+
+
+$("#confirmUnPinModalBotton").click((e)=>{
+    let postId= $(e.target).data("id");
+    $.ajax({
+        url:`/api/posts/${postId}`,
+        type:"PUT",
+        data:{pinned:false},
+        success:(data,status,xhr)=>{
+         
+            if(xhr.status!=204){
+                alert("Could not pin the post")
+                return;
+            }
+         
+            location.reload();
+        }
+    })
+})
+
+
+
 ///load image
 $("#filePhoto").change(function(){
   //  let input=$(e.target);
@@ -138,6 +194,27 @@ $("#filePhoto").change(function(){
         reader.readAsDataURL(this.files[0]);
     }
 });
+
+$("#coverPhoto").change(function(){
+    //  let input=$(e.target);
+      if(this.files && this.files[0]){
+          let reader=new FileReader();
+          reader.onload=(e)=>{
+              let image= document.getElementById("coverPreview")
+              image.src=e.target.result;
+              if(cropper !== undefined){
+                     cropper.destroy(); 
+              }
+              cropper = new Cropper(image,{
+                  aspectRatio:16/9,
+                  background:false
+              });
+          }
+          reader.readAsDataURL(this.files[0]);
+      }
+  });
+
+
 
 $("#imageUploadBotton").click(()=>{
     let canvas = cropper.getCroppedCanvas();
@@ -162,6 +239,35 @@ $("#imageUploadBotton").click(()=>{
         })
     })
 })
+
+
+///upload cover Photo
+$("#coverPhotoUploadBotton").click(()=>{
+    let canvas = cropper.getCroppedCanvas();
+    if(canvas == null){
+        alert("could not upload image, make sure is an image file");
+        return;
+    }
+    
+    canvas.toBlob((blob)=>{
+        let formData= new FormData();
+        formData.append("croppedImage",blob);
+        
+        $.ajax({
+            url:"/api/users/coverPhoto",
+            type:"POST",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success: ()=>{
+                location.reload();
+            }
+        })
+    })
+})
+
+
+
 
 
 
@@ -277,8 +383,22 @@ function createPostHtml(postData,largeFont=false){
     
 
     let button="";
+    let pinnedPostText="";
     if(postData.postedBy._id==userLoggedIn._id){
-        button=`<button data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+
+        let pinclass="";
+        let dataTarget ="#confirmModal"
+        if(postData.pinned===true){
+                pinclass="active";
+                dataTarget="#unpinnedModal";
+                pinnedPostText="<span>Pinned Post</span>";
+        }
+
+        button=`
+        <button class="pinButton ${pinclass}" data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="${dataTarget}">
+        <ion-icon name="code-download-outline"></ion-icon> 
+
+        <button data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="#deleteModal">
         <ion-icon name="close-outline"></ion-icon> 
         </button>`
     }
@@ -292,6 +412,7 @@ function createPostHtml(postData,largeFont=false){
                 <img src='${postedBy.profilePic}'/>
             </div>
             <div class='postContenContainer'>
+            <div class='pinnedPostText'>${pinnedPostText}</div>
                 <div class='header'>
                     <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
                     <span class='username'>${postedBy.username}</span>

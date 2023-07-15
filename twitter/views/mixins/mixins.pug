@@ -61,3 +61,42 @@ mixin createImageUploading()
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-bs-dismiss='modal') cancel
                     button#imageUploadBotton.btn.btn-danger(type='button') save        
+
+mixin createCoverPhotoUploading()
+    #coverPhotoUploadModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='coverPhotoUploadModalLabel' aria-hidden='true')
+        .modal-dialog.modal-dialog-centered(role='document')
+            .modal-content
+                .modal-header
+                    h5#coverPhotoUploadModalLabel.modal-title Upload a new cover Photo
+                .modal-body
+                    input#coverPhoto(type="file",name="coverPhoto")
+
+                    .imagePreviewContainer 
+                        img#coverPreview
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') cancel
+                    button#coverPhotoUploadBotton.btn.btn-danger(type='button') save        
+
+mixin createPinnedModal()
+    #confirmModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='confirmModalLabel' aria-hidden='true')
+        .modal-dialog.modal-dialog-centered(role='document')
+            .modal-content
+                .modal-header
+                    h5#confirmModalLabel.modal-title Pin this Post
+                .modal-body
+                    p this modal will appear at the top of the profile, pin just one post
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') cancel
+                    button#confirmPinModalBotton.btn.btn-danger(type='button') Pin        
+
+mixin createUnPinnedModal()
+    #unpinnedModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='unpinnedModalLabel' aria-hidden='true')
+        .modal-dialog.modal-dialog-centered(role='document')
+            .modal-content
+                .modal-header
+                    h5#unpinnedModalLabel.modal-title UnPin this Post
+                .modal-body
+                    p this post will be unpin
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') cancel
+                    button#confirmUnPinModalBotton.btn.btn-danger(type='button') Pin                            
