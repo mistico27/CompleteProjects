@@ -459,3 +459,58 @@ nav a{
     color: black;
 }
 
+
+.chatPageContainer{
+    display:flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.chatTitleBar{
+    border-bottom: 1px solid black;
+    display:flex;
+    align-items:center;
+    min-height: 60px;
+    padding:10px;
+}
+
+.chatTitleBar label{
+    margin: 0 10px 0 0;
+}
+
+#userSearchTextBox{
+    border:none;
+    flex:1;
+    font-weight: 200;
+    min-width:350px;
+    background-color: aliceblue;
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+#createChatButton{
+    border:none;
+    background-color:  rgba(237, 39, 75, 0.714);
+    color:#d4edff;
+    padding:7px 20px;
+    margin:10px auto;
+    border-radius: 40px;
+}
+
+#createChatButton:disabled{
+    background-color: #eac8cb;
+    color:#060606;
+    
+}
+
+.selectedUser{
+    font-weight: 300;
+    background-color: rgba(237, 39, 75, 0.714);
+    color:whitesmoke;
+    padding:5px;
+    border-radius: 3px;
+    margin:5px 5px 0 0;
+    display: inline-block;
+    border-radius: 5px;
+}

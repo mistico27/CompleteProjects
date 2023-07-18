@@ -1,0 +1,11 @@
+extends layouts/main-layout.pug
+
+block content
+    .resultsContainer
+
+block headerButton
+    a(href="/messages/new")
+        ion-icon(name='mail-unread-outline')
+
+block scripts 
+    script(src="/js/inboxPage.js")
