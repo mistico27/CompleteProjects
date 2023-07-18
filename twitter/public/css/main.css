@@ -434,3 +434,28 @@ nav a{
 .pinnedPostContainer{
     border-bottom: 10px solid rba(230,236,240);
 }
+
+
+.searchBarContainer{
+    position:relative;
+    color:black;
+    padding: 10px var(--spacing);
+}
+
+
+.searchBarContainer ion-icon{
+    position:absolute;
+    top:20px;
+    left:28px;
+}
+
+.searchBarContainer #searchBox{
+    height:36px;
+    width:100%;
+    padding:5px 15px 5px 40px;
+    border-radius: 50px;
+    background-color: #eac8cb;
+    border: none;
+    color: black;
+}
+

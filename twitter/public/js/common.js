@@ -516,3 +516,43 @@ function outputPostIIIWitReplies(results){
         });
 
 }
+
+function outputPostIV(results){
+    results.forEach(result => {
+        let html= createUserHtml(result,true);
+        $(".resultsContainer").append(html);
+    });
+    if(results.length == 0){
+        $(".resultsContainer").append('<span>No results available</span>');
+
+    }
+}
+
+
+
+function createUserHtml(userData,showFollowBotton){ 
+    let name=userData.firstName + " " + userData.lastName;
+    let isFollowing= userLoggedIn.following && userLoggedIn.following.includes(userData._id);
+    let text = !isFollowing?"Following":"Follow"
+    let buttonClass = isFollowing?"followButton following":"followButton"
+
+    let followButton="";
+    if(showFollowBotton && userLoggedIn._id != userData._id){
+        followButton=`<div class='followButtonContainer'>
+                    <button class='${buttonClass}' data-user='${userData._id}'>${text}</button>
+                </div>`;
+    }
+
+return `<div class='user'>
+<div class='userImagecontainer'>
+        <img src='${userData.profilePic}'>
+    </div>
+    <div class='userDetailsContainer'>
+        <div class='header'>
+            <a href='/profile/${userData.username}'>${name}</a>   
+            <span class='username'>${userData.username}</span>    
+        </div>
+    </div>
+    ${followButton}
+</div>`;
+}

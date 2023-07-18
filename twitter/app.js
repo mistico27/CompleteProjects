@@ -36,6 +36,7 @@ const profileRoute =require('./routes/profileRoutes');
 const postApiroute =require('./routes/api/posts');
 const userApiroute =require('./routes/api/users');
 const uploadRoute =require('./routes/uploadsRoutes');
+const searchRoute =require('./routes/searchRoutes');
 
 app.use("/login",loginroute);
 app.use("/register",registeroute);
@@ -43,6 +44,7 @@ app.use("/logout",logoutroute);
 app.use("/posts",middleware.requireLogin,postRoute);
 app.use("/profile",middleware.requireLogin,profileRoute);
 app.use("/uploads",uploadRoute);
+app.use("/search",middleware.requireLogin,searchRoute);
 
 
 app.use("/api/posts",postApiroute);

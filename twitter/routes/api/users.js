@@ -13,6 +13,31 @@ const fs = require("fs")
 app.use(bodyParser.urlencoded({extended:false}));
 
 
+router.get("/",async(req,res,next)=>{
+  let searchObj =req.query;
+  if(req.query.search!== undefined){
+      searchObj ={
+        $or:[
+            {firstName:{$regex:req.query.search,$options:"i"}},
+            {lastName:{$regex:req.query.search,$options:"i"}},
+            {username:{$regex:req.query.search,$options:"i"}},
+        ]
+      }
+  }
+  user.find(searchObj)
+  .then(results =>{
+    res.status(200).send(results)
+  }).catch(error=>{
+    res.status(error.status || 500)
+    res.json({
+      success: false,
+      message: error.message
+    })
+  })
+
+});
+
+
 router.put("/:userId/follow",async(req,res,next)=>{
 
     let userId=req.params.userId;
