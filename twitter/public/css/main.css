@@ -514,3 +514,64 @@ nav a{
     display: inline-block;
     border-radius: 5px;
 }
+
+.resultListItem{
+    padding:7px;
+    display:flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid gray;
+}
+
+.resultListItem:hover{
+    background-color: #f2f2f2;
+}
+
+.resultsDetailContainer{
+    display:flex;
+    flex-direction: column;
+    flex:1;  
+    text-decoration:none;
+}
+
+.resultsDetailContainer .header{
+    font-weight: 500;
+    text-decoration:none;
+}
+
+.resultsDetailContainer .subtext{
+    font-size: 14px;
+    text-decoration:none;
+}
+
+.resultListItem img{
+    height:100%;
+    width:100%;
+    border-radius: 50%;    
+}
+
+.resultsImageContainer{
+    height:40px;
+    width:40px;
+    position:relative;
+    margin-right: 10px;
+    display:flex;
+    align-items: center;
+    padding:5px;
+}
+
+
+.groupChatImage img{
+    height:65%;
+    width:65%;
+    position:absolute;
+    bottom:0;
+    margin:0;   
+    border:3px solid #fff;
+}
+
+.groupChatImage img:first-of-type{
+    top:0;
+    right:0;
+
+}

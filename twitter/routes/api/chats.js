@@ -40,6 +40,22 @@ router.post("/",async(req,res,next)=>{
 })
 
 
+router.get("/",async(req,res,next)=>{
+    chat.find({
+        users:{$elemMatch:{$eq:req.session.user._id}}
+    })
+    .populate("users")
+    .then(results=>res.status(200).send(results))
+    .catch(error=>{
+        res.status(error.status || 500);
+        res.json({
+          success: false,
+          message: error.message
+        })
+    })
+})
+
+
 
 
 module.exports =router;
