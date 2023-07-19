@@ -27,9 +27,9 @@ function createChatHtml(chatData){
     let latestMessage="This is the latest Message...";
     return`<a href='/messages/${chatData._id}' class='resultListItem'>
                 ${image}
-                <div class='resultsDetailContainer'>
-                    <span class='heading'>${chatName}</span>
-                    <span class='subtext'>${latestMessage}</span>
+                <div class='resultsDetailContainer ellipsis'>
+                    <span class='heading ellipsis'>${chatName}</span>
+                    <span class='subtext ellipsis'>${latestMessage}</span>
                 </div>
         </a>`;
 }
