@@ -1,8 +1,25 @@
 extends layouts/main-layout.pug
 
 block content
-    script. 
-        var chatId='!{chat._id}';
 
+    if errorMessage 
+        span.errorMessage #{errorMessage}
+    else
+        script. 
+            var chatId='!{chat._id}';
+
+        .chatPageContainer 
+            .chatTitleBarContainer 
+                +createChatImage(chat, userLoggedIn)
+                span#chatName(data-bs-toggle="modal",data-bs-target="#chatNameModal") this is the chat  
+
+            .mainContentContainer 
+                .chatContainer 
+                    .chatMessages
+                    .footer 
+                        textarea(name="messageInput",placeholder="type your message ...")
+                        button.sendMessageButton 
+                            ion-icon(name='send-outline') 
+        +createChatNameModal(chat)                     
 block scripts 
     script(src="/js/chatPage.js")

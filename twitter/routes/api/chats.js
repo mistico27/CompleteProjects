@@ -45,6 +45,7 @@ router.get("/",async(req,res,next)=>{
         users:{$elemMatch:{$eq:req.session.user._id}}
     })
     .populate("users")
+    .sort({updatedAt:-1})
     .then(results=>res.status(200).send(results))
     .catch(error=>{
         res.status(error.status || 500);
