@@ -39,6 +39,7 @@ const uploadRoute =require('./routes/uploadsRoutes');
 const searchRoute =require('./routes/searchRoutes');
 const messageRoute =require('./routes/messageRoutes');
 const ChatsApiRoute =require('./routes/api/chats');
+const messagesApiRoute =require('./routes/api/messages');
 
 app.use("/login",loginroute);
 app.use("/register",registeroute);
@@ -53,6 +54,7 @@ app.use("/messages",middleware.requireLogin,messageRoute);
 app.use("/api/posts",postApiroute);
 app.use("/api/users",userApiroute);
 app.use("/api/chats",ChatsApiRoute);
+app.use("/api/messages",messagesApiRoute);
 
 
 app.get("/",middleware.requireLogin,(req,res,next)=>{

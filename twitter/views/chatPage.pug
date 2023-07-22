@@ -11,13 +11,13 @@ block content
         .chatPageContainer 
             .chatTitleBarContainer 
                 +createChatImage(chat, userLoggedIn)
-                span#chatName(data-bs-toggle="modal",data-bs-target="#chatNameModal") this is the chat  
+                span#chatName(data-bs-toggle="modal",data-bs-target="#chatNameModal")  
 
             .mainContentContainer 
                 .chatContainer 
-                    .chatMessages
+                    ul.chatMessages
                     .footer 
-                        textarea(name="messageInput",placeholder="type your message ...")
+                        textarea.inputTextBox(name="messageInput",placeholder="type your message ...")
                         button.sendMessageButton 
                             ion-icon(name='send-outline') 
         +createChatNameModal(chat)                     
