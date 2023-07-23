@@ -25,6 +25,8 @@ messages.create(newMessage)
 .then(async(message)=>{
     message= await message.populate("sender");
     message= await message.populate("chat");
+    message= await user.populate(message,{path:"chat.users"})
+    
     chat.findByIdAndUpdate(req.body.chatId,{latestMessage:message})
     .catch(error=>{
       res.status(error.status || 500);

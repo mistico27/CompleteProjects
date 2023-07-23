@@ -13,6 +13,7 @@ const server = app.listen(port,()=>{
     console.log("Server listening in port " + port);
 })
 
+const io=require("socket.io")(server,{pinTimeout:6000});
 
 app.set("view engine","pug");
 app.set("views","views");
@@ -74,3 +75,36 @@ app.get("/",middleware.requireLogin,(req,res,next)=>{
     }
     
 })
+
+
+io.on("connection",socket=>{
+  console.log("connected to socket io");
+  socket.on("setup",(userData)=>{
+        socket.join(userData._id);
+        socket.emit("connected");
+  })
+
+  socket.on("join room",room=>{
+    socket.join(room);
+  })
+
+  socket.on("typing",room=>{
+    socket.in(room).emit("typing");
+  })
+
+  socket.on("stop typing",room=>{
+    socket.in(room).emit("stop typing");
+  })
+
+  socket.on("new Message",newMessage=>{
+        let chat = newMessage.chat;
+        if(!chat.users) return console.log("Chat users not defined");
+        chat.users.forEach(user=>{
+            if(user._id==newMessage.sender._id) return;
+            socket.in(user._id).emit("message received",newMessage);
+        })
+  });
+
+})
+
+

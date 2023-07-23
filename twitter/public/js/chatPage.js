@@ -1,4 +1,10 @@
+let typing=false;
+let lastTypingTime;
 $(document).ready(()=>{
+    socket.emit("join room",chatId);
+    socket.on("typing",()=>$(".typingDots").show());
+    socket.on("stop typing",()=>$(".typingDots").hide());
+
     $.get(`/api/chats/${chatId}`,(data)=>{
         $("#chatName").text(getChatName(data));
     })
@@ -14,7 +20,7 @@ $(document).ready(()=>{
         });
 
         let messagesHtml=messages.join("");
-        addMessagesHtmlToPage(messagesHtml);
+        addChatMessageHtmlToPage(messagesHtml);
 
     })
 })
@@ -42,6 +48,8 @@ $(".sendMessageButton").click(()=>{
 })
 
 $(".inputTextBox").keydown((e)=>{
+
+    updateTyping();
     if(e.which===13){
         messageSubmitted();
         return false;
@@ -49,7 +57,28 @@ $(".inputTextBox").keydown((e)=>{
     
 })
 
-function addMessagesHtmlToPage(html){
+function updateTyping(){
+    if(!connected) return;
+
+    if(!typing){
+        typing=true;
+        socket.emit("typing",chatId);
+    }
+
+   lastTypingTime = new Date().getTime();
+   let timerLength =3000;
+   setTimeout(()=>{
+        let timeNow=new Date().getTime();
+        let timeDif = timeNow-lastTypingTime;
+        if(timeDif>= timerLength && typing){
+            socket.emit("stop typing",chatId);  
+            typing=false;
+        }
+   },timerLength)
+}
+
+
+function addChatMessageHtmlToPage(html){
     $(".chatMessages").append(html);
     //TODO scroll to bottom
 }
@@ -59,6 +88,8 @@ function messageSubmitted(){
     if(content!=""){
         sendMessage(content);
         $(".inputTextBox").val("");
+        socket.emit("stop typing",chatId);  
+        typing=false;
     }
    
 }
@@ -71,8 +102,10 @@ function sendMessage(content){
             $(".inputTextBox").val(content);
             return;
         }
-        location.reload();
         addChatMessageHtml(data);
+        if(connected){
+            socket.emit("new Message",data);
+        }
     })
 }
 
@@ -83,14 +116,14 @@ function addChatMessageHtml(message){
     }
 
     let messageDiv = createMessageHtml(message,null,"");
-    addChatMessageHtml(messageDiv);
+    addChatMessageHtmlToPage(messageDiv);
 }
 
 
 function createMessageHtml(message,nextMessage,lastSenderId){
 
     let sender=message.sender;
-    let senderName =sender.firstName +"" + sender.lastName;
+    let senderName =message.sender.firstName +" "+ message.sender.lastName;
     let currentSenderId=sender._id;
     let nextSenderId=nextMessage !=null?nextMessage.sender._id:"";
 
