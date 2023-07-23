@@ -712,7 +712,7 @@ nav a{
 
 
 .chatMessages .message .messageBody{
-    background-color: #eac8cb;
+    background-color: #d4edff;
     padding:6px 12px;
     border-radius: 20px;
     font-size: 14px;
@@ -723,4 +723,80 @@ nav a{
     display:flex;
     flex-direction: column;
     max-width: 55%;
+}
+
+
+.chatMessages .message.mine .messageContainer{
+    align-items: flex-end;
+}
+
+.chatMessages .message.theirs .messageContainer{
+    align-items: flex-start;
+}
+
+.chatMessages .messages.mine{
+    flex-direction: row-reverse;
+}
+
+.chatMessages .message.mine .messageBody{
+    background-color: #eac8cb;
+    color:#060606;
+    position:relative;
+    left:86%;
+}
+
+.chatMessages .message.mine.first .messageBody{
+    border-bottom-right-radius: 2px;
+}
+
+.chatMessages .message.mine:not(.first):not(.last) .messageBody{
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.chatMessages .message.mine.last .messageBody{
+    border-bottom-right-radius: 18px;
+}
+
+.chatMessages .message.mine.last:not(.first) .messageBody{
+    border-top-right-radius: 2px;
+}
+
+
+
+.chatMessages .message.theirs.first .messageBody{
+    border-bottom-left-radius: 2px;
+}
+
+.chatMessages .message.theirs:not(.first):not(.last) .messageBody{
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+.chatMessages .message.theirs.last .messageBody{
+    border-bottom-left-radius: 18px;
+}
+
+.chatMessages .message.theirs.last:not(.first) .messageBody{
+    border-top-left-radius: 2px;
+}
+
+.senderName{
+    background-color: transparent;
+}
+
+.chatMessages .imagecontainer{
+    height:24px;
+    width:24px;
+    margin-right: 7px;
+}
+
+.chatMessages img{
+    height:100%;
+    border-radius: 50%;
+    vertical-align: bottom;
+}
+
+.chatMessages .message.last{
+    margin-bottom: 7px;
 }
