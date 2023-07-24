@@ -4,8 +4,9 @@ const router =express.Router();
 const bodyParser =require('body-parser');
 const post =require('../../schemas/PostSchema')
 const user =require('../../schemas/UserSchema')
-const chat =require('../../schemas/ChatSchema')
-const messages =require('../../schemas/MessageSchema')
+const Chat =require('../../schemas/ChatSchema')
+const messages =require('../../schemas/MessageSchema');
+const notification = require('../../schemas/NotificationSchema');
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -27,7 +28,7 @@ messages.create(newMessage)
     message= await message.populate("chat");
     message= await user.populate(message,{path:"chat.users"})
     
-    chat.findByIdAndUpdate(req.body.chatId,{latestMessage:message})
+     Chat.findByIdAndUpdate(req.body.chatId,{latestMessage:message})
     .catch(error=>{
       res.status(error.status || 500);
       res.json({
@@ -35,6 +36,7 @@ messages.create(newMessage)
         message: error.message
       })
   })
+  //  insertNotification(chat,message);
     res.status(201).send(message);
 }).catch(error=>{
     res.status(error.status || 500);
@@ -46,5 +48,14 @@ messages.create(newMessage)
 
 })
 
+
+function insertNotification(chat,message){
+  chat.users.forEach(userId => {
+    if(userId== message.sender._id){
+      return;
+    }
+    notification.insertNotification(userId,message.sender._id,"newMessage",message.chat._id)
+  });
+}
 
 module.exports =router;

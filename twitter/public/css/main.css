@@ -814,3 +814,7 @@ nav a{
 }
 
 
+.resultListItem.active{
+    background-color: #eac8cb;
+}
+

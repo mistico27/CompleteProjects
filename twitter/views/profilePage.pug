@@ -25,7 +25,7 @@ block content
                         button.profilePictureButton(data-bs-toggle="modal", data-bs-target="#imageUploadModal")
                             ion-icon(name="camera-reverse-outline")
             .profileButtonsContainer        
-                if profileUser._id == userLoggedIn._id
+                if profileUser._id != userLoggedIn._id
                     a.profileButton(href=`/messages/${profileUser._id}`)
                         ion-icon(name='flame')
                     - let profileUserId = profileUser._id.toString();    
