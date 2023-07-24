@@ -35,14 +35,14 @@ function createNotificationHtml(notification){
 
 function getNotificationText(notification) {
 
-    var userFrom = notification.userFrom;
+    let userFrom = notification.userFrom;
 
     if(!userFrom.firstName || !userFrom.lastName) {
         return alert("user from data not populated");
     }
 
-    var userFromName = `${userFrom.firstName} ${userFrom.lastName}`;
-    var text;
+    let userFromName = `${userFrom.firstName} ${userFrom.lastName}`;
+    let text;
 
     if(notification.notificationType == "retweet") {
         text = `${userFromName} retweeted one of your posts`;
@@ -61,7 +61,7 @@ function getNotificationText(notification) {
 }
 
 function getNotificationUrl(notification) { 
-    var url = "#";
+    let url = "#";
 
     if(notification.notificationType == "retweet" || 
         notification.notificationType == "postLike" || 
