@@ -32,6 +32,7 @@ notificationSchema.statics.insertNotification=async(userTo,userFrom,notification
         notificationType:notificationType,
         entityId:entityId
     };
+    console.log("soy la data notification", data)
     await notification.deleteOne(data).catch(error=>{console.log(error)})
     return notification.create(data).catch(error=>{console.log(error)});
 }

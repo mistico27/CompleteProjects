@@ -84,9 +84,10 @@ router.post("/",async(req,res,next)=>{
          .then(async(newPost)=>{
             newPost=await user.populate(newPost,{path:"postedBy"})
             newPost=await user.populate(newPost,{path:"replyTo"})
-
+            console.log("que onda soy newPost_id", newPost._id);
             if(newPost.replyTo !== undefined){
-              await notification.insertNotification(newPost.replyTo.postedBy,req.session.user._id,"reply",newPost._id);        
+              await notification.insertNotification(newPost.replyTo.postedBy,req.session.user._id,"reply",newPost._id);  
+
             }
             res.status(201).send(newPost);
 
@@ -124,7 +125,7 @@ router.put("/:id/like",async(req,res,next)=>{
 
   if(!isLiked) {
     console.log("hey soy postedby", newPost.postedBy)
-    await notification.insertNotification(newPost.postedBy, userId, "postLike", post._id);
+    await notification.insertNotification(newPost.postedBy, userId, "postLike", newPost._id);
 }
 
   res.status(200).send(newPost)
@@ -185,7 +186,7 @@ router.post("/:id/retweet",async(req,res,next)=>{
 
 
   if(!deletedPost){
-    await notification.insertNotification(newpostII.postedBy,userId,"retweet",post._id);
+    await notification.insertNotification(newpostII.postedBy,userId,"retweet",newpostII._id);
   }
 
   
