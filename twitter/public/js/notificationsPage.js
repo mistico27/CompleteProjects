@@ -22,7 +22,7 @@ function createNotificationHtml(notification){
     let text=getNotificationText(notification);
     let href=getNotificationUrl(notification);
     let className= notification.opened?"":"active";
-    return `<a href='#' class='resultListItem notification ${className}'>
+    return `<a href=${href} class='resultListItem notification ${className}'>
     <div class='resultsImageContainer'>
         <img src='${userFrom.profilePic}'>
         
@@ -67,10 +67,10 @@ function getNotificationUrl(notification) {
         notification.notificationType == "postLike" || 
         notification.notificationType == "reply") {
             
-        url = `/posts/${notification._id}`;
+        url = `/posts/${notification.entityId}`;
     }
     else if(notification.notificationType == "follow") {
-        url = `/profile/${notification._id}`;
+        url = `/profile/${notification.entityId}`;
     }
 
     return url;
